@@ -1,9 +1,40 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Dimensions } from "react-native";
 import React from "react";
+import CarouselComponent from "../../carousel/CarouselComponent";
+
+const MAX_WIDTH = Dimensions.get("screen").width;
 
 export default function WelcomePage({ navigation }) {
+  const images = [
+    "https://images.pexels.com/photos/2115695/pexels-photo-2115695.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    "https://images.pexels.com/photos/4159435/pexels-photo-4159435.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    "https://images.pexels.com/photos/5991465/pexels-photo-5991465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+  ];
+
+  const carouselItems = [
+    {
+      image:
+        "https://images.pexels.com/photos/2115695/pexels-photo-2115695.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      text: "Experience new style of journaling today",
+    },
+    {
+      image:
+        "https://images.pexels.com/photos/4159435/pexels-photo-4159435.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      text: "New level journaling just for you",
+    },
+    {
+      image:
+        "https://assets.imgix.net/hp/snowshoe.jpg?auto=compress&w=1260&h=750&fit=crop",
+      text: "The best journaling app ever - NY Times",
+    },
+  ];
+
   return (
     <View style={styles.container}>
+      <CarouselComponent
+        carouselItems={carouselItems}
+        style={styles.carousel}
+      />
       <Text style={styles.appName}>Five Years Journal</Text>
       <Text style={styles.appMotto}>Leave your life's footprint...</Text>
       <View style={styles.buttonContainer}>
@@ -25,11 +56,14 @@ export default function WelcomePage({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 150,
+    marginTop: 80,
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    // width: MAX_WIDTH,
   },
+  carousel: {},
   loginButton: {
     color: "blue",
     margin: 20,
