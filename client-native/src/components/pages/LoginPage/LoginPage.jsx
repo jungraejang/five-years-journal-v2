@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsLoggedIn, setIsLoggedIn } from "../../../slices/authSlice";
 import { TextInput, Button } from "react-native-paper";
+import {
+  FacebookSocialButton,
+  AppleSocialButton,
+  GoogleSocialButton,
+} from "react-native-social-buttons";
 
 const MAX_WIDTH = Dimensions.get("screen").width;
 const MAX_HEIGHT = Dimensions.get("screen").height;
@@ -17,21 +22,6 @@ export default function LoginPage({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View
-        style={{
-          height: 20,
-          textAlign: "left",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          width: 350,
-          // marginLeft: 40,
-          marginTop: 50,
-        }}
-      >
-        <Text style={{ fontSize: 14, color: "black" }}>Email / Username</Text>
-      </View> */}
       <View style={styles.inputContainer}>
         <TextInput
           label="Email"
@@ -79,6 +69,9 @@ export default function LoginPage({ navigation }) {
       >
         Login
       </Button>
+      <FacebookSocialButton />
+      <GoogleSocialButton />
+      <AppleSocialButton />
     </SafeAreaView>
   );
 }
@@ -135,5 +128,7 @@ const styles = StyleSheet.create({
   loginButton: {
     // marginBottom: 10,
     borderRadius: 5,
+    marginBottom: 20,
+    width: 200,
   },
 });

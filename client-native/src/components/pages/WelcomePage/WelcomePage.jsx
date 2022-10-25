@@ -59,10 +59,7 @@ export default function WelcomePage({ navigation }) {
   return (
     <SafeAreaView style={[styles.container, backgroundStyle]}>
       <View style={styles.carouselContainer}>
-        <CarouselComponent
-          carouselItems={carouselItems}
-          style={styles.carousel}
-        />
+        <CarouselComponent carouselItems={carouselItems} />
       </View>
       <View style={styles.buttonContainer}>
         <Button
@@ -98,7 +95,6 @@ const styles = StyleSheet.create({
     height: "100%",
     // overflow: "hidden",
   },
-  carousel: {},
   carouselContainer: {
     marginTop: 100,
     height: 350,
