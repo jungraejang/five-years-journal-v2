@@ -18,8 +18,8 @@ function MainStackNavigator() {
         {!isLoggedIn && (
           <>
             <Stack.Screen name="Welcome" component={WelcomePage} />
-            <Stack.Screen name="LoginPage" component={LoginPage} />
-            <Stack.Screen name="SignUpPage" component={SignUpPage} />
+            <Stack.Screen name="Login" component={LoginPage} />
+            <Stack.Screen name="SignUp" component={SignUpPage} />
           </>
         )}
         {isLoggedIn && (

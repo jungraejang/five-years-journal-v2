@@ -8,12 +8,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginPage from "./src/components/pages/LoginPage/LoginPage";
 import SignUpPage from "./src/components/pages/SignUpPage/SignUpPage.jsx";
 import MainStackNavigator from "./src/components/navigation/MainStackNavigator";
+import { Provider as PaperProvider } from "react-native-paper";
+
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <Provider store={store}>
-      <MainStackNavigator />
+      <PaperProvider>
+        <MainStackNavigator />
+      </PaperProvider>
     </Provider>
   );
 }

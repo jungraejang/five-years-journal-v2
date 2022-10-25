@@ -1,44 +1,84 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsLoggedIn, setIsLoggedIn } from "../../../slices/authSlice";
+import { TextInput, Button } from "react-native-paper";
+
+const MAX_WIDTH = Dimensions.get("screen").width;
+const MAX_HEIGHT = Dimensions.get("screen").height;
 
 export default function LoginPage({ navigation }) {
-  const [text, onChangeText] = React.useState("");
-  const [number, onChangeNumber] = React.useState("");
+  const [email, onChangeText] = React.useState("");
+  const [password, onChangePassword] = React.useState("");
+  const [hidePass, setHidePass] = useState(true);
   let dispatch = useDispatch(setIsLoggedIn);
   let isLoggedIn = useSelector(selectIsLoggedIn);
+  console.log("inputs for login", email, password);
 
   return (
-    <SafeAreaView>
-      <Text>Email:</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        keyboardType="email-address"
-      />
-      <Text>Password:</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={number}
-      />
-      <Text>Forgot your password?</Text>
+    <SafeAreaView style={styles.container}>
+      {/* <View
+        style={{
+          height: 20,
+          textAlign: "left",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          width: 350,
+          // marginLeft: 40,
+          marginTop: 50,
+        }}
+      >
+        <Text style={{ fontSize: 14, color: "black" }}>Email / Username</Text>
+      </View> */}
+      <View style={styles.inputContainer}>
+        <TextInput
+          label="Email"
+          value={email}
+          onChangeText={(email) => onChangeText(email)}
+          placeholder="Enter your email"
+          mode="outlined"
+          style={styles.inputField}
+          selectionColor="#000"
+          activeOutlineColor="#000"
+          textColor="#000"
+        />
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={(password) => onChangePassword(password)}
+          placeholder="Enter your password"
+          mode="outlined"
+          style={styles.inputField}
+          selectionColor="#000"
+          activeOutlineColor="#000"
+          textColor="#000"
+          secureTextEntry={hidePass ? true : false}
+          right={
+            <TextInput.Icon
+              icon={!hidePass ? "eye" : "eye-off"}
+              onPress={() => setHidePass(!hidePass)}
+            />
+          }
+        />
+      </View>
+      <View style={styles.troubleShootContainer}>
+        <Text>Forgot your password?</Text>
+        <Text>Forgot Your Email?</Text>
+      </View>
       <Button
-        title="Login"
+        style={[styles.loginButton, styles.buttonShadow]}
         onPress={() => {
           dispatch(setIsLoggedIn(true));
           // navigation.navigate("MainPage");
         }}
-      />
+        buttonColor="white"
+        textColor="black"
+        // mode="outlined"
+      >
+        Login
+      </Button>
     </SafeAreaView>
   );
 }
@@ -49,5 +89,51 @@ const styles = StyleSheet.create({
     margin: 30,
     borderWidth: 1,
     padding: 10,
+    width: 300,
+  },
+  container: {
+    backgroundColor: "#E7ECF3",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    // justifyContent: "center",
+    alignItems: "center",
+  },
+  inputContainer: {
+    display: "flex",
+    flexDirection: "column",
+    // justifyContent: "center",
+    // alignItems: "center",
+    width: 350,
+    marginTop: 50,
+  },
+  inputField: {
+    backgroundColor: "white",
+    color: "black",
+    height: 30,
+    // marginTop: 30,
+    padding: 10,
+    width: "100%",
+    fontSize: 14,
+    marginTop: 20,
+  },
+  troubleShootContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 350,
+    marginTop: 5,
+    marginBottom: 30,
+  },
+  buttonShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    elevation: 3,
+  },
+  loginButton: {
+    // marginBottom: 10,
+    borderRadius: 5,
   },
 });

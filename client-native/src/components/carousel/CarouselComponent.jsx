@@ -1,26 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import CarouselCard, { SLIDER_WIDTH, ITEM_WIDTH } from "./CarouselCard";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCarouselIndex, setThemeIndex } from "../../slices/themeSlice";
 
 function CarouselComponent({ carouselItems }) {
   const [index, setIndex] = React.useState(0);
   const isCarousel = React.useRef(null);
-  console.log("page index", index);
+  let carouselIndex = useSelector(selectCarouselIndex);
+  let dispatch = useDispatch(setThemeIndex);
+
+  console.log("index", index, carouselIndex);
 
   return (
     <View>
       <Carousel
         layout="default"
-        layoutCardOffset={9}
+        layoutCardOffset={-18}
         ref={isCarousel}
         data={carouselItems}
         renderItem={CarouselCard}
-        sliderWidth={SLIDER_WIDTH}
-        itemWidth={ITEM_WIDTH}
-        onSnapToItem={(index) => setIndex(index)}
+        sliderWidth={SLIDER_WIDTH * 0.75}
+        itemWidth={ITEM_WIDTH * 0.75}
+        onSnapToItem={(index) => {
+          setIndex(index);
+          dispatch(setThemeIndex(index));
+        }}
         useScrollView={true}
-        autoplay={true}
+        inactiveSlideOpacity={0}
       />
       <Pagination
         dotsLength={carouselItems.length}
@@ -31,7 +39,7 @@ function CarouselComponent({ carouselItems }) {
           height: 10,
           borderRadius: 5,
           marginHorizontal: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.92)",
+          backgroundColor: "rgba(255, 255, 255, 1)",
         }}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}

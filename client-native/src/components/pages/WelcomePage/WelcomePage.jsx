@@ -1,87 +1,127 @@
-import { StyleSheet, Text, View, Button, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
 import React from "react";
+import { Button } from "react-native-paper";
 import CarouselComponent from "../../carousel/CarouselComponent";
+import { useSelector } from "react-redux";
+import { selectCarouselIndex } from "../../../slices/themeSlice";
 
 const MAX_WIDTH = Dimensions.get("screen").width;
+const MAX_HEIGHT = Dimensions.get("screen").height;
 
 export default function WelcomePage({ navigation }) {
-  const images = [
-    "https://images.pexels.com/photos/2115695/pexels-photo-2115695.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    "https://images.pexels.com/photos/4159435/pexels-photo-4159435.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    "https://images.pexels.com/photos/5991465/pexels-photo-5991465.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  ];
-
+  let index = useSelector(selectCarouselIndex);
+  /////////////////////////////export later as setting///////////////////////////////////
   const carouselItems = [
     {
-      image:
-        "https://images.pexels.com/photos/2115695/pexels-photo-2115695.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      image: require("../../../../assets/carousel-images/undraw_Exams.png"),
       text: "Experience new style of journaling today",
     },
     {
-      image:
-        "https://images.pexels.com/photos/4159435/pexels-photo-4159435.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      image: require("../../../../assets/carousel-images/undraw_Memory_storage.png"),
       text: "New level journaling just for you",
     },
     {
-      image:
-        "https://assets.imgix.net/hp/snowshoe.jpg?auto=compress&w=1260&h=750&fit=crop",
+      image: require("../../../../assets/carousel-images/undraw_mobile_ux.png"),
+
       text: "The best journaling app ever - NY Times",
     },
+    {
+      image: require("../../../../assets/carousel-images/undraw_my_files.png"),
+
+      text: "New stage of journaling evolution! - Time Megazine",
+    },
+    {
+      image: require("../../../../assets/carousel-images/undraw_Questions.png"),
+
+      text: "My new favorite app ever - Bill Gates(Citation needed)",
+    },
   ];
+  ///////////////////////////////////refactor and store in util folder///////////////////////////////////
+  const themeSwitch = (index) => {
+    switch (index) {
+      case 0:
+        return "#2A015D";
+      case 1:
+        return "#6E3391";
+      case 2:
+        return "#534E6E";
+      case 3:
+        return "#315973";
+      case 4:
+        return "#2A5C56";
+    }
+  };
+
+  const backgroundStyle = {
+    backgroundColor: themeSwitch(index),
+  };
 
   return (
-    <View style={styles.container}>
-      <CarouselComponent
-        carouselItems={carouselItems}
-        style={styles.carousel}
-      />
-      <Text style={styles.appName}>Five Years Journal</Text>
-      <Text style={styles.appMotto}>Leave your life's footprint...</Text>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="LOGIN"
-          style={styles.loginButton}
-          onPress={() => navigation.navigate("LoginPage")}
-        />
-        <Button
-          title="SIGN UP"
-          color="black"
-          style={styles.signUpButton}
-          onPress={() => navigation.navigate("SignUpPage")}
+    <SafeAreaView style={[styles.container, backgroundStyle]}>
+      <View style={styles.carouselContainer}>
+        <CarouselComponent
+          carouselItems={carouselItems}
+          style={styles.carousel}
         />
       </View>
-    </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          style={[styles.loginButton, styles.buttonShadow]}
+          onPress={() => navigation.navigate("Login")}
+          buttonColor="white"
+          textColor="black"
+          // mode="outlined"
+        >
+          Login
+        </Button>
+        <Button
+          buttonColor="white"
+          style={[styles.signUpButton, styles.buttonShadow]}
+          onPress={() => navigation.navigate("SignUp")}
+          textColor="black"
+          // mode="elevated"
+        >
+          Sign Up
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 80,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    // width: MAX_WIDTH,
+    backgroundColor: "#2A015D",
+    height: "100%",
+    // overflow: "hidden",
   },
   carousel: {},
+  carouselContainer: {
+    marginTop: 100,
+    height: 350,
+    marginBottom: 30,
+  },
   loginButton: {
-    color: "blue",
-    margin: 20,
-    backgroundColor: "black",
+    // marginBottom: 10,
+    borderRadius: 5,
   },
   signUpButton: {
-    color: "red",
-    margin: 20,
+    marginTop: 20,
+    borderRadius: 5,
+  },
+  buttonShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 1,
+    elevation: 3,
   },
   appName: {
     fontWeight: "bold",
     fontSize: 35,
-    marginBottom: 30,
     textAlign: "center",
-  },
-  appMotto: {
-    fontSize: 15,
-    marginBottom: 30,
   },
   buttonContainer: {
     flexDirection: "column",
@@ -89,5 +129,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     width: 150,
+    marginTop: 30,
   },
 });
