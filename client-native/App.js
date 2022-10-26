@@ -10,10 +10,21 @@ import SignUpPage from "./src/components/pages/SignUpPage/SignUpPage.jsx";
 import MainStackNavigator from "./src/components/navigation/MainStackNavigator";
 import { Provider as PaperProvider } from "react-native-paper";
 import setupInterceptors from "./src/services/setupInterceptors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setInit } from "./src/slices/authSlice";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+  const getAsyncStorage = () => {
+    return (dispatch) => {
+      AsyncStorage.getItem("user").then((result) => {
+        dispatch(setInit(JSON.parse(result)));
+      });
+    };
+  };
 
+  setupInterceptors(store);
+  store.dispatch(getAsyncStorage());
   return (
     <Provider store={store}>
       <PaperProvider>
@@ -22,8 +33,6 @@ export default function App() {
     </Provider>
   );
 }
-
-setupInterceptors(store);
 
 const styles = StyleSheet.create({
   container: {

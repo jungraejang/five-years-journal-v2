@@ -21,7 +21,6 @@ export default function SignUpPage() {
 
   let user = useSelector(selectUser);
 
-  console.log("user data", user);
   return (
     <SafeAreaView>
       <Text>First Name:</Text>

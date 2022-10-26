@@ -21,16 +21,15 @@ const login = async ({ username, password }) => {
       password,
     })
     .then((response) => {
-      console.log("login rs triggered", response);
-      if (response.data.accessToken) {
+      if (response.data?.accessToken) {
         TokenService.setUser(response.data);
-        console.log("login rs triggered", response);
       }
 
       return response.data;
     })
     .catch((e) => {
-      console.error(e);
+      let errorMessage = e.response.data.message;
+      return Promise.reject(new Error(errorMessage));
     });
 };
 

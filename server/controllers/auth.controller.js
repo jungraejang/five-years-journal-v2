@@ -63,6 +63,7 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
+  console.log("sign in", req.body);
   User.findOne({
     username: req.body.username,
   })
@@ -72,7 +73,7 @@ exports.signin = (req, res) => {
         res.status(500).send({ message: err });
         return;
       }
-
+      console.log("user", user);
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
@@ -113,6 +114,7 @@ exports.signin = (req, res) => {
 
 exports.refreshToken = async (req, res) => {
   const { refreshToken: requestToken } = req.body;
+  console.log("refreshtoken", requestToken);
 
   if (requestToken == null) {
     return res.status(403).json({ message: "Refresh Token is required!" });
