@@ -8,26 +8,29 @@ import {
   AppleSocialButton,
   GoogleSocialButton,
 } from "react-native-social-buttons";
+import { loginUser } from "../../../slices/authSlice";
+import { selectUser } from "../../../slices/authSlice";
 
 const MAX_WIDTH = Dimensions.get("screen").width;
 const MAX_HEIGHT = Dimensions.get("screen").height;
 
 export default function LoginPage({ navigation }) {
-  const [email, onChangeText] = React.useState("");
+  const [username, onChangeText] = React.useState("");
   const [password, onChangePassword] = React.useState("");
   const [hidePass, setHidePass] = useState(true);
-  let dispatch = useDispatch(setIsLoggedIn);
   let isLoggedIn = useSelector(selectIsLoggedIn);
-  console.log("inputs for login", email, password);
+  console.log("inputs for login", username, password);
+
+  let dispatch = useDispatch(loginUser);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
-          label="Email"
-          value={email}
-          onChangeText={(email) => onChangeText(email)}
-          placeholder="Enter your email"
+          label="username"
+          value={username}
+          onChangeText={(username) => onChangeText(username)}
+          placeholder="Enter your username"
           mode="outlined"
           style={styles.inputField}
           selectionColor="#000"
@@ -55,12 +58,17 @@ export default function LoginPage({ navigation }) {
       </View>
       <View style={styles.troubleShootContainer}>
         <Text>Forgot your password?</Text>
-        <Text>Forgot Your Email?</Text>
+        <Text>Forgot Your username?</Text>
       </View>
       <Button
         style={[styles.loginButton, styles.buttonShadow]}
         onPress={() => {
-          dispatch(setIsLoggedIn(true));
+          dispatch(
+            loginUser({
+              username: username,
+              password: password,
+            })
+          );
           // navigation.navigate("MainPage");
         }}
         buttonColor="white"

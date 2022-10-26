@@ -9,6 +9,7 @@ import LoginPage from "./src/components/pages/LoginPage/LoginPage";
 import SignUpPage from "./src/components/pages/SignUpPage/SignUpPage.jsx";
 import MainStackNavigator from "./src/components/navigation/MainStackNavigator";
 import { Provider as PaperProvider } from "react-native-paper";
+import setupInterceptors from "./src/services/setupInterceptors";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -21,6 +22,8 @@ export default function App() {
     </Provider>
   );
 }
+
+setupInterceptors(store);
 
 const styles = StyleSheet.create({
   container: {

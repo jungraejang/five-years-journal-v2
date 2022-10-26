@@ -20,7 +20,13 @@ app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:8080" }));
+app.use(
+  cors({
+    origin: "http://localhost:19006",
+    credentials: true,
+    optionSuccessStatus: 200,
+  })
+);
 // app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));

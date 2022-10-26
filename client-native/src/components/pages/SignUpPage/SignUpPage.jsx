@@ -7,27 +7,35 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../../slices/authSlice";
+import { selectUser } from "../../../slices/authSlice";
 
 export default function SignUpPage() {
-  const [firstName, onChangeFirstName] = React.useState("");
+  const [username, onChangeUsername] = React.useState("");
   const [email, onChangeEmail] = React.useState("");
-  const [lastName, onChangeLastName] = React.useState("");
+  // const [lastName, onChangeLastName] = React.useState("");
   const [password, onChangePassword] = React.useState("");
 
+  let dispatch = useDispatch(registerUser);
+
+  let user = useSelector(selectUser);
+
+  console.log("user data", user);
   return (
     <SafeAreaView>
       <Text>First Name:</Text>
       <TextInput
         style={styles.input}
-        onChangeText={onChangeFirstName}
-        value={firstName}
+        onChangeText={onChangeUsername}
+        value={username}
       />
-      <Text>Last Name:</Text>
+      {/* <Text>Last Name:</Text>
       <TextInput
         style={styles.input}
         onChangeText={onChangeLastName}
         value={lastName}
-      />
+      /> */}
       <Text>Email:</Text>
       <TextInput
         style={styles.input}
@@ -42,7 +50,20 @@ export default function SignUpPage() {
         value={password}
       />
       <Text>Forgot your password?</Text>
-      <Button title="Login" color="black" />
+      <Button
+        title="Sign Up"
+        color="black"
+        onPress={() =>
+          dispatch(
+            registerUser({
+              username: username,
+              email: email,
+              password: password,
+              roles: ["user"],
+            })
+          )
+        }
+      />
     </SafeAreaView>
   );
 }
