@@ -1,12 +1,9 @@
 import axiosInstance from "./api";
 import TokenService from "./token.service";
-// import { refreshToken } from "../actions/auth";
-// import { useDispatch } from "react-redux";
 import { refreshToken } from "../slices/authSlice";
 
 const setupInterceptors = (store) => {
-  //   let dispatch = useDispatch();
-
+  //Export it to env file
   let BASE_URL = "http://localhost:8080/api";
 
   axiosInstance.interceptors.request.use(

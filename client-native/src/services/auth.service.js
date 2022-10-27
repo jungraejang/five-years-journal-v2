@@ -1,40 +1,42 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import api from "./api";
 import TokenService from "./token.service";
 
+//export it later to env variables
 const API_URL = "http://localhost:8080/api/auth/";
 
-const register = ({ username, email, password, roles }) => {
-  return api.post(API_URL + "signup", {
-    username,
-    email,
-    password,
-    roles,
-  });
+const register = async ({ username, email, password, roles }) => {
+  try {
+    let res = await api.post(API_URL + "signup", {
+      username,
+      email,
+      password,
+      roles,
+    });
+    return res;
+  } catch (e) {
+    let errorMessage = e.response.data.message;
+    return Promise.reject(new Error(errorMessage));
+  }
 };
 
 const login = async ({ username, password }) => {
-  return api
-    .post(API_URL + "signin", {
+  try {
+    let res = await api.post(API_URL + "signin", {
       username,
       password,
-    })
-    .then((response) => {
-      if (response.data?.accessToken) {
-        TokenService.setUser(response.data);
-      }
-
-      return response.data;
-    })
-    .catch((e) => {
-      let errorMessage = e.response.data.message;
-      return Promise.reject(new Error(errorMessage));
     });
+    if (res.data?.accessToken) {
+      await TokenService.setUser(res.data);
+    }
+    return res.data;
+  } catch (e) {
+    let errorMessage = e.response.data.message;
+    return Promise.reject(new Error(errorMessage));
+  }
 };
 
 const logout = async () => {
-  TokenService.removeUser();
+  await TokenService.removeUser();
 };
 
 export default {

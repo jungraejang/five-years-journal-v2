@@ -28,12 +28,12 @@ const updateLocalAccessToken = async (token) => {
 };
 
 const getUser = async () => {
-  AsyncStorage.getItem("user")
-    .then((data) => {
-      let user = JSON.parse(data);
-      return user;
-    })
-    .catch((e) => {});
+  try {
+    let user = await AsyncStorage.getItem("user");
+    return JSON.parse(user);
+  } catch (e) {
+    console.error("getUser catch");
+  }
 };
 
 const setUser = async (user) => {

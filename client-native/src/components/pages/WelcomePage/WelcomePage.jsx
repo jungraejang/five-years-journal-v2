@@ -4,53 +4,12 @@ import { Button } from "react-native-paper";
 import CarouselComponent from "../../carousel/CarouselComponent";
 import { useSelector } from "react-redux";
 import { selectCarouselIndex } from "../../../slices/themeSlice";
-
+import { carouselItems, themeSwitch } from "./setting";
 const MAX_WIDTH = Dimensions.get("screen").width;
 const MAX_HEIGHT = Dimensions.get("screen").height;
 
 export default function WelcomePage({ navigation }) {
   let index = useSelector(selectCarouselIndex);
-  /////////////////////////////export later as setting///////////////////////////////////
-  const carouselItems = [
-    {
-      image: require("../../../../assets/carousel-images/undraw_Exams.png"),
-      text: "Experience new style of journaling today",
-    },
-    {
-      image: require("../../../../assets/carousel-images/undraw_Memory_storage.png"),
-      text: "New level journaling just for you",
-    },
-    {
-      image: require("../../../../assets/carousel-images/undraw_mobile_ux.png"),
-
-      text: "The best journaling app ever - NY Times",
-    },
-    {
-      image: require("../../../../assets/carousel-images/undraw_my_files.png"),
-
-      text: "New stage of journaling evolution! - Time Megazine",
-    },
-    {
-      image: require("../../../../assets/carousel-images/undraw_Questions.png"),
-
-      text: "My new favorite app ever - Bill Gates(Citation needed)",
-    },
-  ];
-  ///////////////////////////////////refactor and store in util folder///////////////////////////////////
-  const themeSwitch = (index) => {
-    switch (index) {
-      case 0:
-        return "#2A015D";
-      case 1:
-        return "#6E3391";
-      case 2:
-        return "#534E6E";
-      case 3:
-        return "#315973";
-      case 4:
-        return "#2A5C56";
-    }
-  };
 
   const backgroundStyle = {
     backgroundColor: themeSwitch(index),

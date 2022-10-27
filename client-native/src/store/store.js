@@ -8,5 +8,6 @@ export const store = configureStore({
     auth: authReducer,
     theme: themeReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }).concat(thunk),
 });

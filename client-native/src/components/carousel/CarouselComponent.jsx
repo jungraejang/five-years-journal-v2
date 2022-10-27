@@ -11,8 +11,6 @@ function CarouselComponent({ carouselItems }) {
   let carouselIndex = useSelector(selectCarouselIndex);
   let dispatch = useDispatch(setThemeIndex);
 
-  console.log("index", index, carouselIndex);
-
   return (
     <View>
       <Carousel
@@ -39,7 +37,7 @@ function CarouselComponent({ carouselItems }) {
           height: 10,
           borderRadius: 5,
           marginHorizontal: 0,
-          backgroundColor: "rgba(255, 255, 255, 1)",
+          backgroundColor: "rgba(0, 0, 0, 1)",
         }}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}

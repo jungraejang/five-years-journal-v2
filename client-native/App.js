@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./src/store/store";
 import WelcomePage from "./src/components/pages/WelcomePage/WelcomePage.jsx";
 import { NavigationContainer } from "@react-navigation/native";
@@ -15,6 +16,32 @@ import { setInit } from "./src/slices/authSlice";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
+  // const { user: currentUser } = useSelector((state) => state.auth);
+
+  // useEffect(() => {
+  //   // const user = JSON.parse(localStorage.getItem("user"));
+
+  //   const getUserFromStorage = async () => {
+  //     try {
+  //       let res = await AsyncStorage.getItem("user");
+  //       return JSON.parse(res);
+  //     } catch (e) {}
+  //   };
+  //   let user = getUserFromStorage();
+  //   console.log("user useeffect", user);
+  //   if (user) {
+  //     const decodedJwt = parseJwt(user.accessToken);
+
+  //     if (decodedJwt.exp * 1000 < Date.now()) {
+  //       // props.logOut();
+  //       // dispatch()
+  //       authService.logout();
+  //     }
+  //   }
+  // }, [currentUser, props]);
+
+  //initialize the asyncstorage by dispatching setInit
   const getAsyncStorage = () => {
     return (dispatch) => {
       AsyncStorage.getItem("user").then((result) => {
@@ -23,8 +50,11 @@ export default function App() {
     };
   };
 
+  //Set up axios interceptor.
   setupInterceptors(store);
+  // initialize the asyncstore
   store.dispatch(getAsyncStorage());
+
   return (
     <Provider store={store}>
       <PaperProvider>

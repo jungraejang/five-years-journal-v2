@@ -69,6 +69,11 @@ export const authSlice = createSlice({
       // state.isLoggedIn = true;
       state.message = action.payload.message;
     },
+    [registerUser.rejected]: (state, action) => {
+      // state.user = action.payload.message;
+      // state.isLoggedIn = true;
+      state.message = action.payload.message;
+    },
     [loginUser.fulfilled]: (state, action) => {
       // state.user = action.payload.message;
       state.isLoggedIn = true;
