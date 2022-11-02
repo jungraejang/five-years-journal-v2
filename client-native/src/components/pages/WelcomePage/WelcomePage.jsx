@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   buttonShadow: {
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 1,
+    shadowOpacity: 0.3,
     elevation: 3,
   },
   appName: {

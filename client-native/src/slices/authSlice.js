@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/auth.service";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import TokenService from "../services/token.service";
 
 const initialState = { isLoggedIn: false, user: {}, message: "" };
@@ -49,7 +48,9 @@ export const authSlice = createSlice({
     },
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
+      state.message = action.payload ? "User Logged In" : "User Logged Out";
     },
+
     setMessage: (state, action) => {
       state.message = action.payload;
     },
@@ -100,6 +101,6 @@ export const {
 
 export const selectUser = (state) => state.auth.user;
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-export const selectMessage = (state) => state.message.message;
+export const selectMessage = (state) => state.auth.message;
 
 export default authSlice.reducer;
