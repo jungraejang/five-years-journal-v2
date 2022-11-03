@@ -28,8 +28,6 @@ export default function LoginPage({ navigation }) {
   let isLoggedIn = useSelector(selectIsLoggedIn);
   let serverMessage = useSelector(selectMessage);
 
-  console.log("inputs for login", username, password);
-
   let dispatch = useDispatch();
 
   let route = useRoute();
@@ -40,7 +38,7 @@ export default function LoginPage({ navigation }) {
   }, [route]);
 
   useEffect(() => {
-    console.log("message useeffect");
+    console.log("message useeffect", serverMessage);
 
     //server message comes from auth controller backend.
     if (serverMessage === "User Not Found") {

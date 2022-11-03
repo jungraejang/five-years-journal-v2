@@ -20,6 +20,7 @@ const register = async ({ username, email, password, roles }) => {
 };
 
 const login = async ({ username, password }) => {
+  console.log("login triggered");
   try {
     let res = await api.post(API_URL + "signin", {
       username,
@@ -28,8 +29,11 @@ const login = async ({ username, password }) => {
     if (res.data?.accessToken) {
       await TokenService.setUser(res.data);
     }
+    console.log("login", res);
+
     return res.data;
   } catch (e) {
+    console.log("error loggin in", e);
     let errorMessage = e.response.data.message;
     return Promise.reject(new Error(errorMessage));
   }

@@ -153,26 +153,27 @@ export default function SignUpPage() {
           <Text style={styles.warningMessage}>{passwordConfirmError}</Text>
         </View>
       </View>
-
-      <Button
-        style={[styles.signupButton, styles.buttonShadow]}
-        buttonColor="white"
-        textColor="black"
-        onPress={() => {
-          if (!passwordConfirmError && !passwordError) {
-            dispatch(
-              registerUser({
-                username: username,
-                email: email,
-                password: password,
-                roles: ["user"],
-              })
-            );
-          }
-        }}
-      >
-        Sign Up
-      </Button>
+      <View style={styles.loginButtonContainer}>
+        <Button
+          style={[styles.signupButton, styles.buttonShadow]}
+          buttonColor="white"
+          textColor="black"
+          onPress={() => {
+            if (!passwordConfirmError && !passwordError) {
+              dispatch(
+                registerUser({
+                  username: username,
+                  email: email,
+                  password: password,
+                  roles: ["user"],
+                })
+              );
+            }
+          }}
+        >
+          Sign Up
+        </Button>
+      </View>
       <FacebookSocialButton
         buttonText="Sign up with Facebook"
         textStyle={{ color: "#fff", marginLeft: 20, marginRight: 20 }}
@@ -243,8 +244,8 @@ const styles = StyleSheet.create({
   signupButton: {
     // marginBottom: 10,
     borderRadius: 5,
-    marginTop: 20,
-    width: 200,
+    // marginTop: 20,
+    // width: 200,
   },
   inputLabel: {
     display: "flex",
@@ -258,5 +259,11 @@ const styles = StyleSheet.create({
     height: 15,
     color: "red",
     fontSize: 11,
+  },
+  loginButtonContainer: {
+    justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "flex-end",
+    width: 320,
   },
 });
