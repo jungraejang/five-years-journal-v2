@@ -8,6 +8,8 @@ db.mongoose = mongoose;
 db.user = require("./user.model");
 db.role = require("./role.model");
 db.refreshToken = require("./refreshToken.model");
+db.question = require("./question.model");
+db.answer = require("./answer.model");
 
 db.ROLES = ["user", "admin", "moderator"];
 

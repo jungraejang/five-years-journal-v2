@@ -6,9 +6,11 @@ const Question = mongoose.model(
     question: String,
     postedBy: String,
     postedAt: Date,
+    month: Number,
+    day: Number,
     answers: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.Mixed,
         ref: "Answer",
       },
     ],
