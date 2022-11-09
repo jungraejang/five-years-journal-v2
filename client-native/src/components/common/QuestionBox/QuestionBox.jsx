@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { useFonts } from "expo-font";
 
-function QuestionBox() {
+function QuestionBox({ question } = props) {
   const [fontsLoaded] = useFonts({
     Chalkboard: require("../../../../assets/fonts/Chalkboard.ttf"),
     "Almendra-Bold": require("../../../../assets/fonts/Almendra-Bold.ttf"),
@@ -39,7 +39,7 @@ function QuestionBox() {
         </View>
         <View style={styles.questionView}>
           <Text style={{ fontFamily: "Chalkboard", fontWeight: 600 }}>
-            What did I do today??
+            {question}
           </Text>
         </View>
       </View>

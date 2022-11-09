@@ -33,7 +33,7 @@ const login = async ({ username, password }) => {
 
     return res.data;
   } catch (e) {
-    console.log("error loggin in", e);
+    console.error("error loggin in", e);
     let errorMessage = e.response.data.message;
     return Promise.reject(new Error(errorMessage));
   }

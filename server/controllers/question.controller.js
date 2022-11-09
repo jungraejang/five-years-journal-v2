@@ -14,8 +14,8 @@ exports.getTodayQuestion = (req, res) => {
   //   let month = today.getMonth() + 1;
   //   let day = today.getDay() - 1;
   let month = 11;
-  let day = 6;
-  console.log("today date", month, day, req.body.postedBy);
+  let day = 9;
+  console.log("today date", month, day, req.body);
 
   Question.findOne({
     postedBy: req.body.postedBy,
@@ -66,7 +66,7 @@ exports.saveAnswer = (req, res) => {
   //   let month = today.getMonth() + 1;
   //   let day = today.getDay() - 1;
   let month = 11;
-  let day = 6;
+  let day = 9;
 
   console.log("today date", month, day, req.body.postedBy);
   const answer = new Answer({
