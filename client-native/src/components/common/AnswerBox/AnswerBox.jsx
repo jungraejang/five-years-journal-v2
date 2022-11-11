@@ -10,19 +10,39 @@ import {
 import { SafeAreaView, StyleSheet, TextInput } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { today } from "../../../utils/today";
 
-function AnswerBox(props) {
-  const [text, onChangeText] = React.useState("Useless Text");
+function AnswerBox({ answerProps } = props) {
+  const [text, onChangeText] = React.useState("");
 
-  const [fontsLoaded] = useFonts({
+  useFonts({
     Chalkboard: require("../../../../assets/fonts/Chalkboard.ttf"),
     "Almendra-Bold": require("../../../../assets/fonts/Almendra-Bold.ttf"),
   });
 
+  let postedDate = new Date(answerProps.postedAt);
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  let day = postedDate.getDate();
+  let month = monthNames[postedDate.getMonth()];
+  let year = postedDate.getFullYear();
+  console.log(postedDate);
+
   useEffect(() => {
-    onChangeText(props.text);
+    onChangeText(answerProps.answer);
   }, []);
-  console.log("text", text);
 
   return (
     <>
@@ -39,7 +59,7 @@ function AnswerBox(props) {
           <Text
             style={{ color: "gray", fontFamily: "Chalkboard", marginBottom: 5 }}
           >
-            Nov 8, 2022
+            {/* {`${month}, ${day}, ${year}`} */}
           </Text>
           <Text
             style={{
@@ -48,7 +68,10 @@ function AnswerBox(props) {
               marginBottom: 10,
             }}
           >
-            10:50AM
+            {/* {postedDate.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })} */}
           </Text>
 
           <TextInput
@@ -58,15 +81,10 @@ function AnswerBox(props) {
             style={{
               color: "black",
               fontFamily: "Chalkboard",
-              //   backgroundColor: "lightgray",
-              //   border: "1px solid #EEEEEE",
-              //   boxShadow: "1px 1px 0 #DDDDDD",
               display: "block",
               fontFamily: "'Marck Script',cursive",
               fontSize: "13px",
               lineHeight: "15px",
-              //   margin: "2% auto",
-              //   padding: "0px 0px 0 0px",
               resize: "none",
               height: "77px",
               width: "320px",
@@ -77,11 +95,6 @@ function AnswerBox(props) {
             }}
           />
         </Card.Content>
-        {/* 
-      <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
-      </Card.Actions> */}
       </Card>
     </>
   );
