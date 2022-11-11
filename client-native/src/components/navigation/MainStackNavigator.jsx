@@ -7,17 +7,22 @@ import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import { useSelector, useDispatch } from "react-redux";
 import { selectIsLoggedIn } from "../../slices/authSlice";
 import MainPage from "../pages/MainPage/MainPage";
-
+import Editor from "../common/Editor/Editor";
+import ArchivePage from "../pages/ArchivePage/ArchivePage";
+import FeedPage from "../pages/FeedPage/FeedPage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import authService from "../../services/auth.service";
 import { setIsLoggedIn } from "../../slices/authSlice";
 
 import { parseJwt } from "../../utils/parseJwt";
+import { selectEditorMode, selectEditorText } from "../../slices/editorSlice";
 
 const Stack = createNativeStackNavigator();
 
 function MainStackNavigator() {
+  console.log("mainstack rendered");
   let isLoggedIn = useSelector(selectIsLoggedIn);
+  let editorMode = useSelector(selectEditorMode);
   const { user: currentUser } = useSelector((state) => state.auth);
   let dispatch = useDispatch();
 
@@ -43,7 +48,7 @@ function MainStackNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator initialRouteName="Welcome" mode="modal">
         {!isLoggedIn && (
           <>
             <Stack.Screen name="Welcome" component={WelcomePage} />
@@ -51,15 +56,23 @@ function MainStackNavigator() {
             <Stack.Screen name="SignUp" component={SignUpPage} />
           </>
         )}
+
         {isLoggedIn && (
-          <Stack.Screen
-            name="MainPage"
-            component={MainPage}
-            screenOptions={{ headerShown: false }}
-            options={{
-              headerShown: false,
-            }}
-          />
+          <>
+            <Stack.Screen
+              name="MainPage"
+              component={MainPage}
+              // screenOptions={{ headerShown: false }}
+              options={{
+                headerShown: false,
+              }}
+            />
+            {/* <Stack.Screen name="Feed" options={{ headerShown: true }}>
+              {() => <FeedPage navigation={navigation} />}
+            </Stack.Screen>
+            <Stack.Screen name="Archive" component={ArchivePage} />
+            <Stack.Screen name="Editor" component={Editor} /> */}
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

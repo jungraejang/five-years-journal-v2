@@ -8,12 +8,26 @@ const initialState = { todayQuestion: null, message: "" };
 export const getTodayQuestion = createAsyncThunk(
   "question/getTodayQuestion",
   async ({ postedBy }, { rejectWithValue }) => {
-    console.log("posted by", postedBy);
     try {
       const res = await questionService.getTodayQuestion({
         postedBy,
       });
-      console.log("resssss", res);
+      return res.data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const saveAnswer = createAsyncThunk(
+  "question/saveAnswer",
+  async ({ answer, postedAt, postedBy }, { rejectWithValue }) => {
+    try {
+      const res = await questionService.saveAnswer({
+        answer,
+        postedAt,
+        postedBy,
+      });
       return res.data;
     } catch (e) {
       return rejectWithValue(e);
@@ -31,11 +45,22 @@ export const questionSlice = createSlice({
   },
   extraReducers: {
     [getTodayQuestion.fulfilled]: (state, action) => {
-      // state.user = action.payload.message;
+      state.message = action.payload.message;
       // state.isLoggedIn = true;
       state.todayQuestion = action.payload;
     },
     [getTodayQuestion.rejected]: (state, action) => {
+      // state.user = action.payload.message;
+      // state.isLoggedIn = true;
+      state.message = action.payload.message;
+    },
+    [saveAnswer.fulfilled]: (state, action) => {
+      console.log("save ans payload", action.payload);
+      // state.user = action.payload.message;
+      // state.isLoggedIn = true;
+      state.message = action.payload.message;
+    },
+    [saveAnswer.rejected]: (state, action) => {
       // state.user = action.payload.message;
       // state.isLoggedIn = true;
       state.message = action.payload.message;

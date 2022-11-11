@@ -11,10 +11,9 @@ const {
 exports.getTodayQuestion = (req, res) => {
   let today = new Date();
   console.log("today", today);
-  //   let month = today.getMonth() + 1;
-  //   let day = today.getDay() - 1;
-  let month = 11;
-  let day = 9;
+  let month = today.getMonth() + 1;
+  let day = today.getDate();
+
   console.log("today date", month, day, req.body);
 
   Question.findOne({
@@ -34,20 +33,29 @@ exports.getTodayQuestion = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-    res.status(200).send({ data: response });
+    res
+      .status(200)
+      .send({
+        data: response,
+        message: "today's question fetched successfully",
+      });
   });
 };
 
 exports.getDefaultQuestion = (req, res) => {};
 
 exports.saveQuestion = (req, res) => {
+  let today = new Date();
+  console.log("today", today);
+  let month = today.getMonth() + 1;
+  let day = today.getDate();
   console.log("req body", req.body);
   const question = new Question({
     question: req.body.question,
     postedBy: req.body.postedBy,
-    postedAt: req.body.postedAt,
-    month: req.body.month,
-    day: req.body.day,
+    postedAt: today,
+    month: month,
+    day: day,
   });
 
   question.save((err, question) => {
@@ -63,10 +71,10 @@ exports.saveQuestion = (req, res) => {
 exports.saveAnswer = (req, res) => {
   let today = new Date();
   console.log("today", today);
-  //   let month = today.getMonth() + 1;
-  //   let day = today.getDay() - 1;
-  let month = 11;
-  let day = 9;
+  let month = today.getMonth() + 1;
+  let day = today.getDate();
+  // let month = 11;
+  // let day = 9;
 
   console.log("today date", month, day, req.body.postedBy);
   const answer = new Answer({
@@ -97,7 +105,7 @@ exports.saveAnswer = (req, res) => {
         res.status(500).send({ message: err });
         return;
       }
-      res.status(200).send({ question });
+      res.status(200).send({ question, message: "answer saved successfully" });
     });
   });
 };

@@ -1,12 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { Button } from "react-native-paper";
 import { useFonts } from "expo-font";
+import { useDispatch } from "react-redux";
+import { setEditorMode } from "../../../slices/editorSlice";
 
-function QuestionBox({ question } = props) {
-  const [fontsLoaded] = useFonts({
+function QuestionBox({ question, navigation } = props) {
+  useFonts({
     Chalkboard: require("../../../../assets/fonts/Chalkboard.ttf"),
     "Almendra-Bold": require("../../../../assets/fonts/Almendra-Bold.ttf"),
   });
+  let dispatch = useDispatch();
+  console.log(navigation);
   return (
     <SafeAreaView style={styles.questionboxContainer}>
       <View style={styles.dayContainer}>
@@ -41,6 +46,16 @@ function QuestionBox({ question } = props) {
           <Text style={{ fontFamily: "Chalkboard", fontWeight: 600 }}>
             {question}
           </Text>
+        </View>
+        <View style={{ alignItems: "flex-end" }}>
+          <Button
+            icon="pencil"
+            onPress={() => {
+              console.log("button clicked");
+              dispatch(setEditorMode(true));
+              navigation.navigate("Editor");
+            }}
+          ></Button>
         </View>
       </View>
     </SafeAreaView>
