@@ -10,7 +10,6 @@ export const editorSlice = createSlice({
       state.editorMode = action.payload;
     },
     onEditorTextChange: (state, action) => {
-      console.log("editor change", action.payload);
       state.editorText = action.payload;
     },
   },

@@ -14,4 +14,8 @@ module.exports = function (app) {
 
   app.post("/api/question/saveQuestion", controller.saveQuestion);
   app.post("/api/question/saveAnswer", controller.saveAnswer);
+  app.get(
+    "/api/question/saveDefaultQuestions",
+    controller.saveDefaultQuestions
+  );
 };
