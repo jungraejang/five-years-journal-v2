@@ -10,7 +10,7 @@ module.exports = function (app) {
   });
 
   app.post("/api/question/getTodayQuestion", controller.getTodayQuestion);
-  app.get("/api/question/getDefaultQuestion", controller.getDefaultQuestion);
+  app.post("/api/question/getDefaultQuestion", controller.getDefaultQuestion);
 
   app.post("/api/question/saveQuestion", controller.saveQuestion);
   app.post("/api/question/saveAnswer", controller.saveAnswer);

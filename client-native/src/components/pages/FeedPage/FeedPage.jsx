@@ -48,6 +48,9 @@ export default function FeedPage({ navigation } = props) {
       loadTodayQuestion();
     }, [])
   );
+  useEffect(() => {
+    console.log("useeffect triggered", todayQuestion);
+  }, [todayQuestion]);
   // useEffect(() => {
   //   console.log("useeffect question triggered");
   //   setRerender(!rerender);

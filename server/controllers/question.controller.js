@@ -10,6 +10,7 @@ const {
 var AWS = require("aws-sdk");
 const { question } = require("../models/index");
 
+//use AWS to detect text from image then save them to default question db
 exports.saveDefaultQuestions = async (req, res) => {
   const bucket = "default-questions"; // the bucketname without s3://
 
@@ -120,7 +121,7 @@ exports.saveDefaultQuestions = async (req, res) => {
     });
   };
   //matches the last digits of photo filename
-  for (let i = 8556; i <= 8556; i++) {
+  for (let i = 8719; i <= 8902; i++) {
     await getDataFromS3(i);
   }
   console.log("result::::::", result);
@@ -137,7 +138,7 @@ exports.getTodayQuestion = (req, res) => {
   let day = today.getDate();
 
   console.log("today date", month, day, req.body);
-
+  //find a today's question from question db
   Question.findOne({
     postedBy: req.body.postedBy,
     month: month,
@@ -155,14 +156,65 @@ exports.getTodayQuestion = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-    res.status(200).send({
-      data: response,
-      message: "today's question fetched successfully",
-    });
+    //check if question has been found, if not run code inside if
+    if (!response) {
+      DefaultQuestion.findOne(
+        {
+          month: month,
+          day: day,
+        },
+        (err, defaultQuestion) => {
+          if (err) {
+            res.status(500).send({ message: err });
+            return;
+          }
+          const question = new Question({
+            question: defaultQuestion.question,
+            postedBy: req.body.postedBy,
+            postedAt: today,
+            month: month,
+            day: day,
+          });
+          question.save((err, question) => {
+            console.log("new question from default", question);
+            if (err) {
+              res.status(500).send({ message: err });
+              return;
+            }
+            res.status(200).send({
+              data: question,
+              message:
+                "default question saved and today's question fetched successfully",
+            });
+          });
+          console.log("default question", question);
+        }
+      );
+    } else {
+      res.status(200).send({
+        data: response,
+        message: "today's question fetched successfully",
+      });
+    }
   });
 };
 
-exports.getDefaultQuestion = (req, res) => {};
+exports.getDefaultQuestion = (req, res) => {
+  let today = new Date();
+  console.log("today", today);
+  let month = today.getMonth() + 1;
+  let day = today.getDate();
+  DefaultQuestion.findOne({ month: month, day: day }, (err, question) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    res.status(200).send({
+      message: "fetched today's default question successfully",
+      data: question,
+    });
+  });
+};
 
 exports.saveQuestion = (req, res) => {
   let today = new Date();
