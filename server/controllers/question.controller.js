@@ -11,6 +11,7 @@ var AWS = require("aws-sdk");
 const { question } = require("../models/index");
 
 //use AWS to detect text from image then save them to default question db
+//Move this function to separate file
 exports.saveDefaultQuestions = async (req, res) => {
   const bucket = "default-questions"; // the bucketname without s3://
 

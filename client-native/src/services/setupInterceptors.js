@@ -4,7 +4,7 @@ import { refreshToken } from "../slices/authSlice";
 
 const setupInterceptors = (store) => {
   //Export it to env file
-  let BASE_URL = "http://localhost:8080/api";
+  let BASE_URL = "http://192.168.0.101:8080/api";
 
   axiosInstance.interceptors.request.use(
     async (config) => {

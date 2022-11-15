@@ -1,7 +1,7 @@
 import api from "./api";
 
 //export it later to env variables
-const API_URL = "http://localhost:8080/api/question/";
+const API_URL = "http://192.168.0.101:8080/api/question/";
 
 const getTodayQuestion = async ({ postedBy }) => {
   try {

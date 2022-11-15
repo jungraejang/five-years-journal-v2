@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     // overflow: "hidden",
   },
   carouselContainer: {
-    marginTop: 100,
+    marginTop: 70,
     height: 350,
     marginBottom: 30,
   },
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     width: 150,
-    marginTop: 30,
+    marginTop: 15,
   },
 });

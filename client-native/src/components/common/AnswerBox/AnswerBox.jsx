@@ -59,7 +59,7 @@ function AnswerBox({ answerProps } = props) {
           <Text
             style={{ color: "gray", fontFamily: "Chalkboard", marginBottom: 5 }}
           >
-            {/* {`${month}, ${day}, ${year}`} */}
+            {`${month}, ${day}, ${year}`}
           </Text>
           <Text
             style={{
@@ -68,10 +68,10 @@ function AnswerBox({ answerProps } = props) {
               marginBottom: 10,
             }}
           >
-            {/* {postedDate.toLocaleTimeString([], {
+            {postedDate.toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
-            })} */}
+            })}
           </Text>
 
           <TextInput
@@ -87,7 +87,7 @@ function AnswerBox({ answerProps } = props) {
               lineHeight: "15px",
               resize: "none",
               height: "77px",
-              width: "320px",
+              width: 320,
               backgroundImage:
                 "-webkit-linear-gradient(top , transparent, transparent 14px,#aeb8cf 0)",
               WebkitBackgroundSize: "100% 15px",

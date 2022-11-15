@@ -11,13 +11,27 @@ function QuestionBox({ question, navigation } = props) {
     "Almendra-Bold": require("../../../../assets/fonts/Almendra-Bold.ttf"),
   });
   let dispatch = useDispatch();
-  console.log(navigation);
+  console.log(question);
+  let months = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December",
+  };
   return (
     <SafeAreaView style={styles.questionboxContainer}>
       <View style={styles.dayContainer}>
         <Text
           style={{
-            fontSize: 35,
+            fontSize: 30,
             backgroundColor: "lightgray",
             borderRadius: "100%",
             width: 40,
@@ -26,7 +40,7 @@ function QuestionBox({ question, navigation } = props) {
             fontWeight: 100,
           }}
         >
-          8
+          {question.data.day}
         </Text>
       </View>
       <View style={styles.questionContainer}>
@@ -39,23 +53,13 @@ function QuestionBox({ question, navigation } = props) {
               fontFamily: "Almendra-Bold",
             }}
           >
-            November
+            {months[question.data.month]}
           </Text>
         </View>
         <View style={styles.questionView}>
-          <Text style={{ fontFamily: "Chalkboard", fontWeight: 600 }}>
-            {question}
+          <Text style={{ fontFamily: "Chalkboard", fontWeight: 500 }}>
+            {question.data.question}
           </Text>
-        </View>
-        <View style={{ alignItems: "flex-end" }}>
-          <Button
-            icon="pencil"
-            onPress={() => {
-              console.log("button clicked");
-              dispatch(setEditorMode(true));
-              navigation.navigate("Editor");
-            }}
-          ></Button>
         </View>
       </View>
     </SafeAreaView>

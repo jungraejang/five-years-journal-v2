@@ -83,7 +83,7 @@ function Editor() {
             lineHeight: "15px",
             resize: "none",
             height: 250,
-            width: "320px",
+            width: 320,
             backgroundImage:
               "-webkit-linear-gradient(top , transparent, transparent 14px,#aeb8cf 0)",
             WebkitBackgroundSize: "100% 15px",

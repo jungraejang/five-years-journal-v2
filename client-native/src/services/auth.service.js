@@ -2,7 +2,7 @@ import api from "./api";
 import TokenService from "./token.service";
 
 //export it later to env variables
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = "http://192.168.0.101:8080/api/auth/";
 
 const register = async ({ username, email, password, roles }) => {
   try {

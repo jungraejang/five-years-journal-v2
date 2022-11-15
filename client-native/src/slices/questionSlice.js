@@ -12,14 +12,6 @@ export const getTodayQuestion = createAsyncThunk(
       let res = await questionService.getTodayQuestion({
         postedBy,
       });
-      //   console.log("resssss", res.data.data);
-      //   if (res.data.data === null) {
-      //     console.log("if statemetn triggered");
-      //     res = await questionService.getDefaultQuestion({});
-      //     console.log("default q res", res.data);
-      //     return res.data;
-      //   }
-      console.log("res from server", res);
       return res.data;
     } catch (e) {
       return rejectWithValue(e);
@@ -63,14 +55,6 @@ export const questionSlice = createSlice({
       // state.isLoggedIn = true;
       state.message = action.payload.message;
     },
-    // [getDefaultQuestion.fulfilled]: (state, action) => {
-    //   state.message = action.payload.message;
-    //   state.todayQuestion = action.payload;
-    // },
-    // [getDefaultQuestion.rejected]: (state, action) => {
-    //   state.message = action.payload.message;
-    // },
-
     [saveAnswer.fulfilled]: (state, action) => {
       console.log("save ans payload", action.payload);
       // state.user = action.payload.message;
