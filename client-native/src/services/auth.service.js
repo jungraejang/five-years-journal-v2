@@ -40,7 +40,13 @@ const login = async ({ username, password }) => {
 };
 
 const logout = async () => {
-  await TokenService.removeUser();
+  try {
+    await TokenService.removeUser();
+    return { message: "user logged out" };
+  } catch (e) {
+    let errorMessage = "user logout failed";
+    return Promise.reject(new Error(errorMessage));
+  }
 };
 
 export default {

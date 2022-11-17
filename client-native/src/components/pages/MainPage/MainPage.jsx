@@ -1,8 +1,12 @@
-import { StyleSheet, Text, SafeAreaView, Modal } from "react-native";
+import { StyleSheet, Text, SafeAreaView, Modal, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsLoggedIn, setIsLoggedIn } from "../../../slices/authSlice";
+import {
+  selectIsLoggedIn,
+  setIsLoggedIn,
+  logout,
+} from "../../../slices/authSlice";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FeedPage from "../FeedPage/FeedPage";
 import ArchivePage from "../ArchivePage/ArchivePage";
@@ -15,6 +19,9 @@ import {
 } from "../../../slices/editorSlice";
 import { saveAnswer } from "../../../slices/questionSlice";
 import { useRoute } from "@react-navigation/native";
+import authService from "../../../services/auth.service";
+import { useEffect } from "react";
+import ImagePicker from "../../common/ImagePicker/ImagePicker";
 
 export default function MainPage({ navigation } = props) {
   let dispatch = useDispatch();
@@ -33,6 +40,7 @@ export default function MainPage({ navigation } = props) {
         screenOptions={({ route }) => ({
           tabBarButton: ["Editor"].includes(route.name)
             ? () => {
+                console.log("route", route);
                 return null;
               }
             : undefined,
@@ -61,6 +69,21 @@ export default function MainPage({ navigation } = props) {
               ) : (
                 <IconButton iconColor="black" icon="menu"></IconButton>
               ),
+            headerRight: () =>
+              editorMode ? (
+                <IconButton icon="pencil"></IconButton>
+              ) : (
+                <IconButton
+                  iconColor="black"
+                  icon="account-circle"
+                  onPress={() => {
+                    authService.logout();
+                    dispatch(logout());
+                    console.log("navigation", navigation);
+                    // navigation.navigate("Login");
+                  }}
+                ></IconButton>
+              ),
           }}
         >
           {() => <FeedPage navigation={navigation} />}
@@ -86,32 +109,34 @@ export default function MainPage({ navigation } = props) {
               ),
             headerRight: () =>
               editorMode ? (
-                <IconButton
-                  onPress={() => {
-                    console.log("button clicked");
-                    //finish save answer first
-                    dispatch(
-                      saveAnswer({
-                        answer: editorText,
-                        postedBy: currentUser.username,
-                        postedAt: today,
-                      })
-                    )
-                      .unwrap()
-                      .then((res) => {
-                        dispatch(onEditorTextChange(""));
-                        dispatch(setEditorMode(false));
-                        navigation.navigate("Feed");
-                      })
-                      .catch((e) => {
-                        console.log("error", e);
-                      });
-                    // dispatch(onEditorTextChange(""));
-                    // dispatch(setEditorMode(false));
-                  }}
-                  icon="check"
-                  iconColor="black"
-                ></IconButton>
+                <View style={{ flexDirection: "row", display: "flex" }}>
+                  <ImagePicker />
+                  <IconButton
+                    onPress={() => {
+                      //finish save answer first
+                      dispatch(
+                        saveAnswer({
+                          answer: editorText,
+                          postedBy: currentUser.username,
+                          postedAt: today,
+                        })
+                      )
+                        .unwrap()
+                        .then((res) => {
+                          dispatch(onEditorTextChange(""));
+                          dispatch(setEditorMode(false));
+                          navigation.navigate("Feed");
+                        })
+                        .catch((e) => {
+                          console.log("error", e);
+                        });
+                      // dispatch(onEditorTextChange(""));
+                      // dispatch(setEditorMode(false));
+                    }}
+                    icon="check"
+                    iconColor="black"
+                  ></IconButton>
+                </View>
               ) : null,
           }}
         ></Tab.Screen>

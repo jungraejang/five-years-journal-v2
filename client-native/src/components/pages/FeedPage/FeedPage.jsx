@@ -50,7 +50,6 @@ export default function FeedPage({ navigation } = props) {
       loadTodayQuestion();
     }, [])
   );
-  // useEffect(() => {}, [todayQuestion]);
 
   const showAddButton = () => {
     if (todayQuestion?.data?.answers) {

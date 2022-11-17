@@ -63,6 +63,10 @@ export const authSlice = createSlice({
     setInit: (state, action) => {
       state.user = action.payload;
     },
+    logout: (state, action) => {
+      state.user = {};
+      state.isLoggedIn = false;
+    },
   },
   extraReducers: {
     [registerUser.fulfilled]: (state, action) => {
@@ -97,6 +101,7 @@ export const {
   clearMessage,
   refreshToken,
   setInit,
+  logout,
 } = authSlice.actions;
 
 export const selectUser = (state) => state.auth.user;
