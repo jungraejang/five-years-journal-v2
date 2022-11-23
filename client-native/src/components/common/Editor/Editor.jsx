@@ -7,7 +7,7 @@ import {
   Paragraph,
   Text,
 } from "react-native-paper";
-import { SafeAreaView, StyleSheet, TextInput, View } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, View, Image } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,6 +68,7 @@ function Editor() {
           backgroundColor: "#EEEEEE",
           width: 340,
           alignItems: "center",
+          float: "left",
         }}
       >
         <TextInput

@@ -69,7 +69,7 @@ export const questionSlice = createSlice({
   },
 });
 
-export const { setTodayQuestion } = questionSlice.actions;
+export const { setTodayQuestion, setImage } = questionSlice.actions;
 
 export const selectTodayQuestion = (state) => state.question.todayQuestion;
 export const selectMessage = (state) => state.question.message;

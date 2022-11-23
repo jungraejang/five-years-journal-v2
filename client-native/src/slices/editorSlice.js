@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = { editorMode: false, message: "", editorText: "" };
+const initialState = {
+  editorMode: false,
+  message: "",
+  editorText: "",
+  image: null,
+};
 
 export const editorSlice = createSlice({
   name: "editor",
@@ -11,6 +16,9 @@ export const editorSlice = createSlice({
     },
     onEditorTextChange: (state, action) => {
       state.editorText = action.payload;
+    },
+    setImage: (state, action) => {
+      state.image = action.payload;
     },
   },
   //   extraReducers: {
@@ -27,9 +35,12 @@ export const editorSlice = createSlice({
   //   },
 });
 
-export const { setEditorMode, onEditorTextChange } = editorSlice.actions;
+export const { setEditorMode, onEditorTextChange, setImage } =
+  editorSlice.actions;
 
 export const selectEditorMode = (state) => state.editor.editorMode;
 export const selectMessage = (state) => state.editor.message;
 export const selectEditorText = (state) => state.editor.editorText;
+export const selectImage = (state) => state.editor.image;
+
 export default editorSlice.reducer;
