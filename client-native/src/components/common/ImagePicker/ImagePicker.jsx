@@ -9,10 +9,11 @@ export default function ImagePicker() {
   //   const [image, setImage] = useState(null);
   let dispatch = useDispatch();
   let image = useSelector(selectImage);
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await imagePicker.launchImageLibraryAsync({
-      mediaTypes: imagePicker.MediaTypeOptions.All,
+      mediaTypes: imagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -21,8 +22,15 @@ export default function ImagePicker() {
     console.log(result);
 
     if (!result.canceled) {
-      dispatch(setImage(result.uri));
+      console.log(result);
+
+      //   dispatch(setImage(result.uri));
     }
+
+    const split = result.uri.split("/");
+    const fileName = split[split.length - 1];
+
+    console.log(split, fileName);
   };
 
   return (
