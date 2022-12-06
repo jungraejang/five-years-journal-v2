@@ -42,7 +42,7 @@ function AnswerBox({ answerProps } = props) {
 
   useEffect(() => {
     onChangeText(answerProps.answer);
-  }, []);
+  }, [answerProps]);
 
   return (
     <>

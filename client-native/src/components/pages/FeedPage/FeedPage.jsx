@@ -14,7 +14,7 @@ import QuestionBox from "../../common/QuestionBox/QuestionBox";
 import AnswerBox from "../../common/AnswerBox/AnswerBox";
 import { useEffect } from "react";
 import {
-  getTodayQuestion,
+  getQuestion,
   selectTodayQuestion,
   selectMessage,
 } from "../../../slices/questionSlice";
@@ -33,13 +33,19 @@ export default function FeedPage({ navigation } = props) {
   let todayQuestion = useSelector(selectTodayQuestion);
   let questionMessage = useSelector(selectMessage);
 
-  console.log("feed page loaded", todayQuestion, questionMessage);
   let dispatch = useDispatch();
   let user = useSelector(selectUser);
 
   const loadTodayQuestion = React.useCallback(async () => {
     try {
-      dispatch(getTodayQuestion({ postedBy: user?.username }));
+      dispatch(
+        getQuestion({
+          postedBy: user?.username,
+          today: false,
+          day: new Date().getDate(),
+          month: new Date().getMonth() + 1,
+        })
+      );
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +62,6 @@ export default function FeedPage({ navigation } = props) {
       if (todayQuestion?.data?.answers?.length) {
         todayQuestion.data.answers.forEach((el) => {
           let postedYear = new Date(el.postedAt).getFullYear();
-          console.log("posted year", postedYear, year);
           if (postedYear === year) {
             return true;
           }

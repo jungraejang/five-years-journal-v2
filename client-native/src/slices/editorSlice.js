@@ -21,18 +21,6 @@ export const editorSlice = createSlice({
       state.image = action.payload;
     },
   },
-  //   extraReducers: {
-  //     [getTodayQuestion.fulfilled]: (state, action) => {
-  //       // state.user = action.payload.message;
-  //       // state.isLoggedIn = true;
-  //       state.todayQuestion = action.payload;
-  //     },
-  //     [getTodayQuestion.rejected]: (state, action) => {
-  //       // state.user = action.payload.message;
-  //       // state.isLoggedIn = true;
-  //       state.message = action.payload.message;
-  //     },
-  //   },
 });
 
 export const { setEditorMode, onEditorTextChange, setImage } =

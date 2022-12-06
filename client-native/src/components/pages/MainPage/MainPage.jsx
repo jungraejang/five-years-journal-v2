@@ -2,6 +2,7 @@ import { StyleSheet, Text, SafeAreaView, Modal, View } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Feather } from "@expo/vector-icons";
 import {
   selectIsLoggedIn,
   setIsLoggedIn,
@@ -46,11 +47,34 @@ export default function MainPage({ navigation } = props) {
             : undefined,
         })}
       >
-        <Tab.Screen name="Archive" component={ArchivePage} options={{}} />
+        <Tab.Screen
+          name="Archive"
+          component={ArchivePage}
+          options={{
+            tabBarLabel: "Archive",
+            tabBarLabelStyle: {
+              fontSize: 12,
+              fontWeight: "bold",
+              color: "#000",
+            },
+            tabBarIcon: () => {
+              return <Feather name="archive" size={20} color="black" />;
+            },
+          }}
+        />
 
         <Tab.Screen
           name="Feed"
           options={{
+            tabBarLabel: "Home",
+            tabBarLabelStyle: {
+              fontSize: 12,
+              fontWeight: "bold",
+              color: "#000",
+            },
+            tabBarIcon: () => {
+              return <Feather name="home" size={20} color="black" />;
+            },
             headerShown: true,
             title: "Feed",
             headerStyle: {

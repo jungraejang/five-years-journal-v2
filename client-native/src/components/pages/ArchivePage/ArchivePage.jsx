@@ -1,64 +1,121 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, ScrollView, SafeAreaView } from "react-native";
 import React from "react";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Avatar,
+  Button,
+  Card,
+  Title,
+  Paragraph,
+  Text,
+} from "react-native-paper";
+import {
+  selectFetchedQuestion,
+  getQuestion,
+  selectTodayQuestion,
+} from "../../../slices/questionSlice";
+import { useEffect } from "react";
+import { selectUser } from "../../../slices/authSlice";
+import AnswerBox from "../../common/AnswerBox/AnswerBox";
 
 export default function ArchivePage() {
-  return (
-    <View>
-      <Calendar
-        // Initially visible month. Default = now
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  const [selectedDate, setSelectedDate] = useState(`${yyyy}-${mm}-${dd}`);
+  let fetchedQuestion = useSelector(selectFetchedQuestion);
+  let todayQuestion = useSelector(selectTodayQuestion);
+  let user = useSelector(selectUser);
+  let dispatch = useDispatch();
 
-        // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-        minDate={"2012-05-10"}
-        // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-        maxDate={"2012-05-30"}
-        // Handler which gets executed on day press. Default = undefined
+  console.log("datesssss", dd, mm, yyyy, fetchedQuestion);
+  useEffect(() => {
+    console.log("triggered useEffect Archive");
+    dispatch(
+      getQuestion({
+        postedBy: user?.username,
+        today: false,
+        day: parseInt(selectedDate.split("-")[2]),
+        month: parseInt(selectedDate.split("-")[1]),
+      })
+    );
+  }, [selectedDate]);
+
+  useEffect(() => {}, [fetchedQuestion]);
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Calendar
+        initialDate={selectedDate}
+        markedDates={{
+          [selectedDate]: { selected: true },
+        }}
         onDayPress={(day) => {
           console.log("selected day", day);
+          setSelectedDate(day.dateString);
         }}
-        // Handler which gets executed on day long press. Default = undefined
         onDayLongPress={(day) => {
-          console.log("selected day", day);
+          console.log("selected day, long press", day);
         }}
-        // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-        monthFormat={"yyyy MM"}
-        // Handler which gets executed when visible month changes in calendar. Default = undefined
+        monthFormat={"yyyy MMMM"}
         onMonthChange={(month) => {
           console.log("month changed", month);
         }}
-        // Hide month navigation arrows. Default = false
-        hideArrows={true}
-        // Replace default arrows with custom ones (direction can be 'left' or 'right')
-        renderArrow={(direction) => <Arrow />}
-        // Do not show days of other months in month page. Default = false
-        hideExtraDays={true}
-        // If hideArrows = false and hideExtraDays = false do not switch month when tapping on greyed out
-        // day from another month that is visible in calendar page. Default = false
-        disableMonthChange={true}
-        // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday
-        firstDay={1}
-        // Hide day names. Default = false
-        hideDayNames={true}
-        // Show week numbers to the left. Default = false
-        showWeekNumbers={true}
-        // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-        onPressArrowLeft={(subtractMonth) => subtractMonth()}
-        // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-        onPressArrowRight={(addMonth) => addMonth()}
-        // Disable left arrow. Default = false
-        disableArrowLeft={true}
-        // Disable right arrow. Default = false
-        disableArrowRight={true}
-        // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-        disableAllTouchEventsForDisabledDays={true}
-        // Replace default month and year title with custom one. the function receive a date as parameter
-        renderHeader={(date) => {
-          /*Return JSX*/
-        }}
-        // Enable the option to swipe between months. Default = false
+        // showWeekNumbers={true}
         enableSwipeMonths={true}
+        theme={{
+          // backgroundColor: "#E1D9EC",
+          calendarBackground: "#E1D9EC",
+          textSectionTitleColor: "#000",
+          // textSectionTitleDisabledColor: "#d9e1e8",
+          // selectedDayBackgroundColor: "#00adf5",
+          // selectedDayTextColor: "#ffffff",
+          // todayTextColor: "#00adf5",
+          dayTextColor: "#2d4150",
+          // textDisabledColor: "#d9e1e8",
+          // dotColor: "#00adf5",
+          // selectedDotColor: "#ffffff",
+          // arrowColor: "orange",
+          // disabledArrowColor: "#d9e1e8",
+          // monthTextColor: "blue",
+          // indicatorColor: "blue",
+          // textDayFontFamily: "monospace",
+          // textMonthFontFamily: "monospace",
+          // textDayHeaderFontFamily: "monospace",
+          // textDayFontWeight: "300",
+          textMonthFontWeight: "bold",
+          // textDayHeaderFontWeight: "300",
+          // textDayFontSize: 16,
+          // textMonthFontSize: 16,
+          // textDayHeaderFontSize: 16,
+        }}
+        style={{ margin: 20 }}
       />
-    </View>
+
+      <ScrollView>
+        {fetchedQuestion && (
+          <Text
+            style={{
+              color: "#000",
+              fontFamily: "Chalkboard",
+              textAlign: "center",
+              margin: 10,
+            }}
+          >
+            {fetchedQuestion?.data?.question}
+          </Text>
+        )}
+        {fetchedQuestion
+          ? fetchedQuestion?.data?.answers.map((el, index) => {
+              return <AnswerBox key={index} answerProps={el} />;
+            })
+          : todayQuestion?.data?.answers.map((el, index) => {
+              return <AnswerBox key={index} answerProps={el} />;
+            })}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

@@ -132,14 +132,20 @@ exports.saveDefaultQuestions = async (req, res) => {
   });
 };
 
-exports.getTodayQuestion = (req, res) => {
+exports.getQuestion = (req, res) => {
   let today = new Date();
   console.log("today", today);
   let month = today.getMonth() + 1;
   let day = today.getDate();
 
-  console.log("today date", month, day, req.body);
+  if (!req.body.today) {
+    month = req.body.month;
+    day = req.body.day;
+  }
+
+  console.log("today date", req.body);
   //find a today's question from question db
+
   Question.findOne({
     postedBy: req.body.postedBy,
     month: month,
