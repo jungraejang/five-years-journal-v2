@@ -20,7 +20,6 @@ import { selectEditorMode, selectEditorText } from "../../slices/editorSlice";
 const Stack = createNativeStackNavigator();
 
 function MainStackNavigator() {
-  console.log("mainstack rendered");
   let isLoggedIn = useSelector(selectIsLoggedIn);
   let editorMode = useSelector(selectEditorMode);
   const { user: currentUser } = useSelector((state) => state.auth);

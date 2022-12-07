@@ -76,6 +76,22 @@ export default function FeedPage({ navigation } = props) {
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
       {/* <TextInputModal /> */}
+      <View
+        style={{
+          alignSelf: "center",
+          width: "250px",
+          height: "35px",
+          textAlign: "center",
+          backgroundColor: "#E1D9EC",
+          borderRadius: "30px",
+          marginTop: "20px",
+          // justifyContent: "center",
+        }}
+      >
+        <Text style={{ fontSize: 20, fontWeight: "500" }}>
+          Question of the day
+        </Text>
+      </View>
       {todayQuestion && (
         <>
           <QuestionBox

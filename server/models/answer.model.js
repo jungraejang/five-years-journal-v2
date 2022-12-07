@@ -6,6 +6,7 @@ const Answer = mongoose.model(
     answer: String,
     postedBy: String,
     postedAt: Date,
+    image: String,
   })
 );
 

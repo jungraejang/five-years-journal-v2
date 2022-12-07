@@ -29,12 +29,13 @@ const getDefaultQuestion = async ({}) => {
     return Promise.reject(new Error(errorMessage));
   }
 };
-const saveAnswer = async ({ answer, postedAt, postedBy }) => {
+const saveAnswer = async ({ answer, postedAt, postedBy, image }) => {
   try {
     let res = await api.post(API_URL + "saveAnswer", {
       answer,
       postedAt,
       postedBy,
+      image,
     });
     return res;
   } catch (e) {

@@ -15,10 +15,10 @@ import { selectTodayQuestion, saveAnswer } from "../../../slices/questionSlice";
 import {
   onEditorTextChange,
   selectEditorText,
+  selectImage,
 } from "../../../slices/editorSlice";
 
 function Editor() {
-  const [text, onChangeText] = React.useState("");
   const monthNames = [
     "Jan",
     "Feb",
@@ -43,16 +43,22 @@ function Editor() {
   });
   let question = useSelector(selectTodayQuestion);
   let editorText = useSelector(selectEditorText);
+  let image = useSelector(selectImage);
   let dispatch = useDispatch();
+  useEffect(() => {
+    console.log("editor initialized", editorText);
+  }, [image]);
   console.log("questiopn", question.data, editorText);
   return (
     <View
       style={{
         alignSelf: "center",
         alignItems: "left",
-        height: "50%",
-        justifyContent: "center",
-        height: 300,
+        display: "flex",
+        flexDirection: "column",
+        // height: "50%",
+        justifyContent: "flex-start",
+        height: 600,
         marginTop: 30,
       }}
     >
@@ -71,6 +77,9 @@ function Editor() {
           float: "left",
         }}
       >
+        {image ? (
+          <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
+        ) : null}
         <TextInput
           value={editorText}
           multiline

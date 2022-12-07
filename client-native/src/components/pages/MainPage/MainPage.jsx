@@ -17,6 +17,7 @@ import {
   setEditorMode,
   selectEditorText,
   onEditorTextChange,
+  selectImage,
 } from "../../../slices/editorSlice";
 import { saveAnswer } from "../../../slices/questionSlice";
 import { useRoute } from "@react-navigation/native";
@@ -32,6 +33,7 @@ export default function MainPage({ navigation } = props) {
   let editorText = useSelector(selectEditorText);
   const { user: currentUser } = useSelector((state) => state.auth);
   const route = useRoute();
+  let image = useSelector(selectImage);
 
   return (
     <>
@@ -41,7 +43,6 @@ export default function MainPage({ navigation } = props) {
         screenOptions={({ route }) => ({
           tabBarButton: ["Editor"].includes(route.name)
             ? () => {
-                console.log("route", route);
                 return null;
               }
             : undefined,
@@ -51,14 +52,23 @@ export default function MainPage({ navigation } = props) {
           name="Archive"
           component={ArchivePage}
           options={{
-            tabBarLabel: "Archive",
+            tabBarLabel: ({ focused }) => (
+              <Text style={{ color: focused ? "#6750A4" : "black" }}>
+                Archive
+              </Text>
+            ),
             tabBarLabelStyle: {
               fontSize: 12,
-              fontWeight: "bold",
               color: "#000",
             },
-            tabBarIcon: () => {
-              return <Feather name="archive" size={20} color="black" />;
+            tabBarIcon: ({ focused }) => {
+              return (
+                <Feather
+                  name="archive"
+                  size={20}
+                  color={focused ? "#6750A4" : "black"}
+                />
+              );
             },
           }}
         />
@@ -66,14 +76,22 @@ export default function MainPage({ navigation } = props) {
         <Tab.Screen
           name="Feed"
           options={{
-            tabBarLabel: "Home",
             tabBarLabelStyle: {
               fontSize: 12,
-              fontWeight: "bold",
               color: "#000",
             },
-            tabBarIcon: () => {
-              return <Feather name="home" size={20} color="black" />;
+            tabBarLabel: ({ focused }) => (
+              <Text style={{ color: focused ? "#6750A4" : "black" }}>Home</Text>
+            ),
+
+            tabBarIcon: ({ focused }) => {
+              return (
+                <Feather
+                  name="home"
+                  size={20}
+                  color={focused ? "#6750A4" : "black"}
+                />
+              );
             },
             headerShown: true,
             title: "Feed",
@@ -103,7 +121,6 @@ export default function MainPage({ navigation } = props) {
                   onPress={() => {
                     authService.logout();
                     dispatch(logout());
-                    console.log("navigation", navigation);
                     // navigation.navigate("Login");
                   }}
                 ></IconButton>
@@ -143,6 +160,7 @@ export default function MainPage({ navigation } = props) {
                           answer: editorText,
                           postedBy: currentUser.username,
                           postedAt: today,
+                          image: image,
                         })
                       )
                         .unwrap()

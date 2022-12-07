@@ -33,12 +33,13 @@ export const getQuestion = createAsyncThunk(
 
 export const saveAnswer = createAsyncThunk(
   "question/saveAnswer",
-  async ({ answer, postedAt, postedBy }, { rejectWithValue }) => {
+  async ({ answer, postedAt, postedBy, image }, { rejectWithValue }) => {
     try {
       const res = await questionService.saveAnswer({
         answer,
         postedAt,
         postedBy,
+        image,
       });
       return res.data;
     } catch (e) {

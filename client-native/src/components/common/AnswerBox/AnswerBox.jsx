@@ -7,7 +7,7 @@ import {
   Paragraph,
   Text,
 } from "react-native-paper";
-import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, Image, View } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { today } from "../../../utils/today";
@@ -38,7 +38,6 @@ function AnswerBox({ answerProps } = props) {
   let day = postedDate.getDate();
   let month = monthNames[postedDate.getMonth()];
   let year = postedDate.getFullYear();
-  console.log(postedDate);
 
   useEffect(() => {
     onChangeText(answerProps.answer);
@@ -73,27 +72,37 @@ function AnswerBox({ answerProps } = props) {
               minute: "2-digit",
             })}
           </Text>
-
-          <TextInput
-            value={text}
-            multiline
-            onChangeText={onChangeText}
+          <View
             style={{
-              color: "black",
-              fontFamily: "Chalkboard",
-              display: "block",
-              fontFamily: "'Marck Script',cursive",
-              fontSize: "13px",
-              lineHeight: "15px",
-              resize: "none",
-              height: "77px",
-              width: 320,
-              backgroundImage:
-                "-webkit-linear-gradient(top , transparent, transparent 14px,#aeb8cf 0)",
-              WebkitBackgroundSize: "100% 15px",
-              backgroundSize: "100% 15px",
+              display: "flex",
+              flexDirection: "row",
             }}
-          />
+          >
+            <TextInput
+              value={text}
+              multiline
+              onChangeText={onChangeText}
+              style={{
+                color: "black",
+                fontFamily: "Chalkboard",
+                display: "block",
+                fontFamily: "'Marck Script',cursive",
+                fontSize: "13px",
+                lineHeight: "15px",
+                resize: "none",
+                height: "77px",
+                width: 250,
+                backgroundImage:
+                  "-webkit-linear-gradient(top , transparent, transparent 14px,#aeb8cf 0)",
+                WebkitBackgroundSize: "100% 15px",
+                backgroundSize: "100% 15px",
+              }}
+            />
+            <Image
+              source={{ uri: `${answerProps.image}` }}
+              style={{ width: 77, height: 77, marginLeft: 10 }}
+            />
+          </View>
         </Card.Content>
       </Card>
     </>

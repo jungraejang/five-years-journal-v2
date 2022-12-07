@@ -22,7 +22,8 @@ import AnswerBox from "../../common/AnswerBox/AnswerBox";
 
 export default function ArchivePage() {
   var today = new Date();
-  var dd = today.getDate();
+  // var dd = today.getDate();
+  var dd = ("0" + today.getDate()).slice(-2);
   var mm = today.getMonth() + 1;
   var yyyy = today.getFullYear();
   const [selectedDate, setSelectedDate] = useState(`${yyyy}-${mm}-${dd}`);
@@ -49,9 +50,10 @@ export default function ArchivePage() {
     <SafeAreaView style={{ flex: 1 }}>
       <Calendar
         initialDate={selectedDate}
-        markedDates={{
-          [selectedDate]: { selected: true },
-        }}
+        // markedDates={{
+        //   [selectedDate]: { selected: true },
+        // }}
+        current={selectedDate}
         onDayPress={(day) => {
           console.log("selected day", day);
           setSelectedDate(day.dateString);

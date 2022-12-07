@@ -10,19 +10,19 @@ const {
 var AWS = require("aws-sdk");
 const { question } = require("../models/index");
 
+const defaultQuestionBucket = "default-questions"; // the bucketname without s3://
+
+const config = new AWS.Config({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
+AWS.config.update({ region: "us-east-1" });
+const rekognition = new AWS.Rekognition();
+
 //use AWS to detect text from image then save them to default question db
 //Move this function to separate file
 exports.saveDefaultQuestions = async (req, res) => {
-  const bucket = "default-questions"; // the bucketname without s3://
-
-  const config = new AWS.Config({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  });
-
-  AWS.config.update({ region: "us-east-1" });
-  const client = new AWS.Rekognition();
-
   let result = [];
 
   let months = {
@@ -47,12 +47,12 @@ exports.saveDefaultQuestions = async (req, res) => {
       const params = {
         Image: {
           S3Object: {
-            Bucket: bucket,
+            Bucket: defaultQuestionBucket,
             Name: `IMG_${i}.JPG`,
           },
         },
       };
-      client.detectText(params, function (err, response) {
+      rekognition.detectText(params, function (err, response) {
         if (err) {
           console.log("aws error:", err, err.stack); // handle error if an error occurred
           reject(err);
@@ -225,9 +225,10 @@ exports.getDefaultQuestion = (req, res) => {
 
 exports.saveQuestion = (req, res) => {
   let today = new Date();
-  console.log("today", today);
   let month = today.getMonth() + 1;
   let day = today.getDate();
+  let year = date.getFullYear();
+
   console.log("req body", req.body);
   const question = new Question({
     question: req.body.question,
@@ -247,21 +248,61 @@ exports.saveQuestion = (req, res) => {
   });
 };
 
-exports.saveAnswer = (req, res) => {
+const imageUpload = async (base64, userId, s3) => {
+  let today = new Date();
+  let month = today.getMonth() + 1;
+  let day = today.getDate();
+  let year = today.getFullYear();
+
+  const base64Data = new Buffer.from(
+    base64.replace(/^data:image\/\w+;base64,/, ""),
+    "base64"
+  );
+
+  const type = base64.split(";")[0].split("/")[1];
+  const params = {
+    Key: `${userId}-${day}-${month}-${year}.${type}`,
+    Body: base64Data,
+    ACL: "public-read",
+    ContentEncoding: "base64",
+    ContentType: `image/${type}`,
+  };
+  console.log("types", type, userId, params);
+
+  let location = "";
+  let key = "";
+  try {
+    console.log("running try");
+    const { Location, Key } = await s3.upload(params).promise();
+    location = Location;
+    key = Key;
+    console.log("location, key", Location, Key);
+  } catch (error) {
+    console.log("error", error);
+  }
+
+  console.log(location, key);
+
+  return location;
+};
+
+exports.saveAnswer = async (req, res) => {
   let today = new Date();
   console.log("today", today);
   let month = today.getMonth() + 1;
   let day = today.getDate();
+  const s3 = new AWS.S3({ params: { Bucket: "fyj-images" } });
 
-  console.log("today date", month, day, req.body.postedBy);
+  let imageLocation = await imageUpload(req.body.image, req.body.postedBy, s3);
+  console.log("imageLocation", imageLocation);
   const answer = new Answer({
     answer: req.body.answer,
     postedBy: req.body.postedBy,
     postedAt: req.body.postedAt,
+    image: imageLocation,
   });
 
   answer.save((err, resp) => {
-    console.log("respppp", resp);
     if (err) {
       res.status(500).send({ message: err });
     }

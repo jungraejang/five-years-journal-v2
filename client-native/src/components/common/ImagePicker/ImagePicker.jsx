@@ -13,9 +13,9 @@ export default function ImagePicker() {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await imagePicker.launchImageLibraryAsync({
-      mediaTypes: imagePicker.MediaTypeOptions.Images,
+      mediaTypes: imagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
@@ -24,22 +24,27 @@ export default function ImagePicker() {
     if (!result.canceled) {
       console.log(result);
 
-      //   dispatch(setImage(result.uri));
+      dispatch(setImage(result.assets[0].uri));
     }
 
-    const split = result.uri.split("/");
-    const fileName = split[split.length - 1];
+    // // const split = result.uri.split(".");
+    // // const fileName = split[split.length - 1];
+    // result = result.assets[0];
+    // var filename = result.uri.substring(
+    //   result.uri.lastIndexOf("/") + 1,
+    //   result.uri.length
+    // );
 
-    console.log(split, fileName);
+    // console.log(filename);
   };
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <IconButton onPress={pickImage} icon="camera" iconColor="black">
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
-      </IconButton>
+      <IconButton
+        onPress={pickImage}
+        icon="camera"
+        iconColor="black"
+      ></IconButton>
     </View>
   );
 }
