@@ -132,7 +132,7 @@ exports.saveDefaultQuestions = async (req, res) => {
   });
 };
 
-exports.getQuestion = (req, res) => {
+exports.getTodayQuestion = (req, res) => {
   let today = new Date();
   console.log("today", today);
   let month = today.getMonth() + 1;

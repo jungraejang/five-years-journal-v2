@@ -76,11 +76,14 @@ function AnswerBox({ answerProps } = props) {
             style={{
               display: "flex",
               flexDirection: "row",
+              pointerEvents: "none",
             }}
           >
             <TextInput
               value={text}
               multiline
+              editable={false}
+              selectTextOnFocus={false}
               onChangeText={onChangeText}
               style={{
                 color: "black",

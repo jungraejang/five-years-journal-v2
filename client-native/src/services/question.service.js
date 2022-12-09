@@ -3,9 +3,9 @@ import api from "./api";
 //export it later to env variables
 const API_URL = "http://192.168.0.101:8080/api/question/";
 
-const getQuestion = async ({ postedBy, today, day, month }) => {
+const getTodayQuestion = async ({ postedBy, today, day, month }) => {
   try {
-    let res = await api.post(API_URL + "getQuestion", {
+    let res = await api.post(API_URL + "getTodayQuestion", {
       postedBy,
       today,
       day,
@@ -45,7 +45,7 @@ const saveAnswer = async ({ answer, postedAt, postedBy, image }) => {
 };
 
 export default {
-  getQuestion,
+  getTodayQuestion,
   saveAnswer,
   getDefaultQuestion,
 };

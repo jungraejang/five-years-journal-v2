@@ -14,7 +14,7 @@ import QuestionBox from "../../common/QuestionBox/QuestionBox";
 import AnswerBox from "../../common/AnswerBox/AnswerBox";
 import { useEffect } from "react";
 import {
-  getQuestion,
+  getTodayQuestion,
   selectTodayQuestion,
   selectMessage,
 } from "../../../slices/questionSlice";
@@ -39,7 +39,7 @@ export default function FeedPage({ navigation } = props) {
   const loadTodayQuestion = React.useCallback(async () => {
     try {
       dispatch(
-        getQuestion({
+        getTodayQuestion({
           postedBy: user?.username,
           today: false,
           day: new Date().getDate(),
@@ -60,17 +60,28 @@ export default function FeedPage({ navigation } = props) {
   const showAddButton = () => {
     if (todayQuestion?.data?.answers) {
       if (todayQuestion?.data?.answers?.length) {
-        todayQuestion.data.answers.forEach((el) => {
-          let postedYear = new Date(el.postedAt).getFullYear();
+        // todayQuestion.data.answers.forEach((el) => {
+        //   console.log("today question info", el);
+        //   let postedYear = new Date(el.postedAt).getFullYear();
+        //   console.log("year", postedYear, year);
+        //   if (postedYear === year) {
+        //     return false;
+        //   }
+        // });
+
+        for (let answer of todayQuestion.data.answers) {
+          console.log("today question info", answer);
+          let postedYear = new Date(answer.postedAt).getFullYear();
+          console.log("year", postedYear, year);
           if (postedYear === year) {
-            return true;
+            return false;
           }
-        });
+        }
       } else {
         return true;
       }
     }
-    return false;
+    return true;
   };
 
   return (

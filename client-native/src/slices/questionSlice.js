@@ -13,12 +13,12 @@ let today = new Date();
 let dd = today.getDate();
 let mm = today.getMonth() + 1;
 
-export const getQuestion = createAsyncThunk(
-  "question/getQuestion",
+export const getTodayQuestion = createAsyncThunk(
+  "question/getTodayQuestion",
   async ({ postedBy, today, day, month }, { rejectWithValue }) => {
     console.log("get question", day, month, postedBy);
     try {
-      let res = await questionService.getQuestion({
+      let res = await questionService.getTodayQuestion({
         postedBy,
         today,
         day,
@@ -57,8 +57,8 @@ export const questionSlice = createSlice({
     },
   },
   extraReducers: {
-    [getQuestion.fulfilled]: (state, action) => {
-      //check if fetched question has same date as today, if so save them in different state (fetchedQuestion)
+    [getTodayQuestion.fulfilled]: (state, action) => {
+      //check if fetched question has same date as today, if not save them in different state (fetchedQuestion)
       if (action.payload.data.day != dd || action.payload.data.month != mm) {
         state.fetchedQuestion = action.payload;
       } else {
@@ -67,7 +67,7 @@ export const questionSlice = createSlice({
       state.message = action.payload.message;
       // state.isLoggedIn = true;
     },
-    [getQuestion.rejected]: (state, action) => {
+    [getTodayQuestion.rejected]: (state, action) => {
       // state.user = action.payload.message;
       // state.isLoggedIn = true;
       state.message = action.payload.message;

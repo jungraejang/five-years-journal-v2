@@ -13,7 +13,7 @@ import {
 } from "react-native-paper";
 import {
   selectFetchedQuestion,
-  getQuestion,
+  getTodayQuestion,
   selectTodayQuestion,
 } from "../../../slices/questionSlice";
 import { useEffect } from "react";
@@ -32,11 +32,9 @@ export default function ArchivePage() {
   let user = useSelector(selectUser);
   let dispatch = useDispatch();
 
-  console.log("datesssss", dd, mm, yyyy, fetchedQuestion);
   useEffect(() => {
-    console.log("triggered useEffect Archive");
     dispatch(
-      getQuestion({
+      getTodayQuestion({
         postedBy: user?.username,
         today: false,
         day: parseInt(selectedDate.split("-")[2]),
@@ -55,7 +53,6 @@ export default function ArchivePage() {
         // }}
         current={selectedDate}
         onDayPress={(day) => {
-          console.log("selected day", day);
           setSelectedDate(day.dateString);
         }}
         onDayLongPress={(day) => {
