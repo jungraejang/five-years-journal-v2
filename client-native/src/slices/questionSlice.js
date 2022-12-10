@@ -16,9 +16,27 @@ let mm = today.getMonth() + 1;
 export const getTodayQuestion = createAsyncThunk(
   "question/getTodayQuestion",
   async ({ postedBy, today, day, month }, { rejectWithValue }) => {
-    console.log("get question", day, month, postedBy);
+    console.log("get question today question", day, month, postedBy);
     try {
       let res = await questionService.getTodayQuestion({
+        postedBy,
+        today,
+        day,
+        month,
+      });
+      return res.data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const getQuestion = createAsyncThunk(
+  "question/getQuestion",
+  async ({ postedBy, today, day, month }, { rejectWithValue }) => {
+    console.log("get question", day, month, postedBy);
+    try {
+      let res = await questionService.getQuestion({
         postedBy,
         today,
         day,
@@ -34,6 +52,7 @@ export const getTodayQuestion = createAsyncThunk(
 export const saveAnswer = createAsyncThunk(
   "question/saveAnswer",
   async ({ answer, postedAt, postedBy, image }, { rejectWithValue }) => {
+    console.log("save answer thunk", answer, image);
     try {
       const res = await questionService.saveAnswer({
         answer,
@@ -59,15 +78,26 @@ export const questionSlice = createSlice({
   extraReducers: {
     [getTodayQuestion.fulfilled]: (state, action) => {
       //check if fetched question has same date as today, if not save them in different state (fetchedQuestion)
-      if (action.payload.data.day != dd || action.payload.data.month != mm) {
-        state.fetchedQuestion = action.payload;
-      } else {
-        state.todayQuestion = action.payload;
-      }
+
+      state.todayQuestion = action.payload;
+
       state.message = action.payload.message;
       // state.isLoggedIn = true;
     },
     [getTodayQuestion.rejected]: (state, action) => {
+      // state.user = action.payload.message;
+      // state.isLoggedIn = true;
+      state.message = action.payload.message;
+    },
+    [getQuestion.fulfilled]: (state, action) => {
+      //check if fetched question has same date as today, if not save them in different state (fetchedQuestion)
+
+      state.fetchedQuestion = action.payload;
+
+      state.message = action.payload.message;
+      // state.isLoggedIn = true;
+    },
+    [getQuestion.rejected]: (state, action) => {
       // state.user = action.payload.message;
       // state.isLoggedIn = true;
       state.message = action.payload.message;

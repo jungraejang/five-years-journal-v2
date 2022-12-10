@@ -34,7 +34,7 @@ function AddAnswerButton({ navigation } = props) {
               width: 40,
               height: 40,
               backgroundColor: "#E1D9EC",
-              borderRadius: "50%",
+              borderRadius: 20,
               marginTop: 10,
               alignSelf: "center",
             },
@@ -49,7 +49,7 @@ function AddAnswerButton({ navigation } = props) {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    borderRadius: "50%",
+    borderRadius: 80,
     alignSelf: "center",
     marginTop: 30,
     alignItems: "center",
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#B3A8D2",
     padding: 10,
-    borderRadius: "50%",
+    borderRadius: 80,
     width: 160,
     height: 160,
     // paddingTop: 30,

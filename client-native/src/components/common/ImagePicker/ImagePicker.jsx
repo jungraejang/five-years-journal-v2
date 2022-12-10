@@ -23,19 +23,11 @@ export default function ImagePicker() {
 
     if (!result.canceled) {
       console.log(result);
+      console.log(result.uri);
+      console.log("platformm", Platform.OS);
 
       dispatch(setImage(result.assets[0].uri));
     }
-
-    // // const split = result.uri.split(".");
-    // // const fileName = split[split.length - 1];
-    // result = result.assets[0];
-    // var filename = result.uri.substring(
-    //   result.uri.lastIndexOf("/") + 1,
-    //   result.uri.length
-    // );
-
-    // console.log(filename);
   };
 
   return (

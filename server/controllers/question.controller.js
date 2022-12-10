@@ -8,9 +8,17 @@ const {
   defaultQuestion: DefaultQuestion,
 } = db;
 var AWS = require("aws-sdk");
-const { question } = require("../models/index");
-
+const { v4: uuidv4 } = require("uuid");
+// const { generatePDF } = require("./generatePDF.js");
+const {
+  generatePDF,
+  generateHeader,
+  generateFooter,
+} = require("../helper/generatePDF");
 const defaultQuestionBucket = "default-questions"; // the bucketname without s3://
+const path = require("path");
+const fs = require("fs");
+const PDFDocument = require("pdfkit");
 
 const config = new AWS.Config({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -138,11 +146,6 @@ exports.getTodayQuestion = (req, res) => {
   let month = today.getMonth() + 1;
   let day = today.getDate();
 
-  if (!req.body.today) {
-    month = req.body.month;
-    day = req.body.day;
-  }
-
   console.log("today date", req.body);
   //find a today's question from question db
 
@@ -150,7 +153,7 @@ exports.getTodayQuestion = (req, res) => {
     postedBy: req.body.postedBy,
     month: month,
     day: day,
-
+    //example of how to find by day and month
     // $where: () => {
     //   return this.postedAt.getDay() == day;
     // },
@@ -202,6 +205,79 @@ exports.getTodayQuestion = (req, res) => {
         data: response,
         message: "today's question fetched successfully",
       });
+    }
+  });
+};
+
+exports.getQuestion = (req, res) => {
+  console.log("today date", req.body);
+  //find a today's question from question db
+
+  Question.findOne({
+    postedBy: req.body.postedBy,
+    month: req.body.month,
+    day: req.body.day,
+    //example of how to find by day and month
+    // $where: () => {
+    //   return this.postedAt.getDay() == day;
+    // },
+    // $where: () => {
+    //   return this.postedAt.getMonth() == month;
+    // },
+  }).exec(async (err, response) => {
+    console.log("response", response);
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+
+    if (response) {
+      res.status(200).send({
+        data: response,
+        message: "question fetched successfully",
+      });
+    }
+  });
+};
+
+exports.getPDF = async (req, res) => {
+  Question.find({
+    //search question db for question with answers
+    answers: { $exists: true, $not: { $size: 0 } },
+    postedBy: req.body.postedBy,
+  }).exec(async (err, response) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    if (response) {
+      let doc = new PDFDocument({ size: "A4", margin: 50 });
+
+      generateHeader(doc);
+      //   generateCustomerInformation(doc, questions);
+      //   generatequestionsTable(doc, questions);
+      generateFooter(doc);
+
+      // doc.pipe(fs.createWriteStream("files/sample-pdf.pdf"));
+      let stream = fs.createWriteStream("files/sample-pdf.pdf");
+
+      stream.on("finish", async () => {
+        console.log("triggered on finish");
+        console.log("path", path.join(__dirname, "../files/sample-pdf.pdf"));
+
+        res.download(path.join(__dirname, "../files/sample-pdf.pdf"), () => {
+          if (err) {
+            console.log(err);
+          }
+          //delete file after download to save memory
+          fs.unlinkSync("files/sample-pdf.pdf");
+        });
+        console.log("triggered download");
+      });
+      console.log("generate completed");
+
+      doc.pipe(stream);
+      doc.end();
     }
   });
 };
@@ -261,7 +337,7 @@ const imageUpload = async (base64, userId, s3) => {
 
   const type = base64.split(";")[0].split("/")[1];
   const params = {
-    Key: `${userId}-${day}-${month}-${year}.${type}`,
+    Key: `${uuidv4()}.${type}`,
     Body: base64Data,
     ACL: "public-read",
     ContentEncoding: "base64",
@@ -292,8 +368,10 @@ exports.saveAnswer = async (req, res) => {
   let month = today.getMonth() + 1;
   let day = today.getDate();
   const s3 = new AWS.S3({ params: { Bucket: "fyj-images" } });
-
-  let imageLocation = await imageUpload(req.body.image, req.body.postedBy, s3);
+  let imageLocation = null;
+  if (req.body.image) {
+    imageLocation = await imageUpload(req.body.image, req.body.postedBy, s3);
+  }
   console.log("imageLocation", imageLocation);
   const answer = new Answer({
     answer: req.body.answer,

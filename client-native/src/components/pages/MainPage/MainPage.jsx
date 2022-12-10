@@ -155,6 +155,7 @@ export default function MainPage({ navigation } = props) {
                   <IconButton
                     onPress={() => {
                       //finish save answer first
+                      console.log("button clicked");
                       dispatch(
                         saveAnswer({
                           answer: editorText,

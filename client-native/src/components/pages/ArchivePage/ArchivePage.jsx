@@ -13,8 +13,8 @@ import {
 } from "react-native-paper";
 import {
   selectFetchedQuestion,
-  getTodayQuestion,
   selectTodayQuestion,
+  getQuestion,
 } from "../../../slices/questionSlice";
 import { useEffect } from "react";
 import { selectUser } from "../../../slices/authSlice";
@@ -34,7 +34,7 @@ export default function ArchivePage() {
 
   useEffect(() => {
     dispatch(
-      getTodayQuestion({
+      getQuestion({
         postedBy: user?.username,
         today: false,
         day: parseInt(selectedDate.split("-")[2]),
@@ -90,7 +90,7 @@ export default function ArchivePage() {
           // textMonthFontSize: 16,
           // textDayHeaderFontSize: 16,
         }}
-        style={{ margin: 20 }}
+        style={{ margin: 20, width: 350, alignSelf: "center" }}
       />
 
       <ScrollView>

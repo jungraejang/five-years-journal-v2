@@ -11,6 +11,7 @@ module.exports = function (app) {
 
   app.post("/api/question/getTodayQuestion", controller.getTodayQuestion);
   app.post("/api/question/getDefaultQuestion", controller.getDefaultQuestion);
+  app.post("/api/question/getQuestion", controller.getQuestion);
 
   app.post("/api/question/saveQuestion", controller.saveQuestion);
   app.post("/api/question/saveAnswer", controller.saveAnswer);
@@ -18,6 +19,10 @@ module.exports = function (app) {
     "/api/question/saveDefaultQuestions",
     controller.saveDefaultQuestions
   );
+
+  app.post("/api/question/saveQuestion", controller.saveQuestion);
+
+  app.post("/api/question/getPDF", controller.getPDF);
 
   app.post("/");
 };

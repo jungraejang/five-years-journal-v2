@@ -21,7 +21,14 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSAppTransportSecurity" : {
-          "NSAllowsArbitraryLoads" : true
+          "NSAllowsArbitraryLoads" : true,
+
+          "NSExceptionDomains": {
+            "http://192.168.0.101" :{
+              "NSIncludesSubdomains": true,
+              "NSExceptionAllowsInsecureHTTPLoads": true
+            }
+          }
         }
       }
     },

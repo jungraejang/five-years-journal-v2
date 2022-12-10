@@ -18,6 +18,21 @@ const getTodayQuestion = async ({ postedBy, today, day, month }) => {
   }
 };
 
+const getQuestion = async ({ postedBy, today, day, month }) => {
+  try {
+    let res = await api.post(API_URL + "getQuestion", {
+      postedBy,
+      today,
+      day,
+      month,
+    });
+    return res;
+  } catch (e) {
+    let errorMessage = e.response.data.message;
+    return Promise.reject(new Error(errorMessage));
+  }
+};
+
 const getDefaultQuestion = async ({}) => {
   try {
     let res = await api.post(API_URL + "getDefaultQuestion", {});
@@ -48,4 +63,5 @@ export default {
   getTodayQuestion,
   saveAnswer,
   getDefaultQuestion,
+  getQuestion,
 };

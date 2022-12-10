@@ -90,13 +90,15 @@ export default function FeedPage({ navigation } = props) {
       <View
         style={{
           alignSelf: "center",
-          width: "250px",
-          height: "35px",
+          width: 250,
+          height: 35,
           textAlign: "center",
           backgroundColor: "#E1D9EC",
-          borderRadius: "30px",
-          marginTop: "20px",
-          // justifyContent: "center",
+          borderRadius: 30,
+          marginTop: 20,
+          justifyContent: "center",
+          alignItems: "center",
+          // paddingTop: 3,
         }}
       >
         <Text style={{ fontSize: 20, fontWeight: "500" }}>

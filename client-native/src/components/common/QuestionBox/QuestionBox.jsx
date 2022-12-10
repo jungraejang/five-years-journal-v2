@@ -33,11 +33,11 @@ function QuestionBox({ question, navigation } = props) {
           style={{
             fontSize: 30,
             backgroundColor: "lightgray",
-            borderRadius: "100%",
             width: 40,
             height: 40,
             fontFamily: "Almendra-Bold",
             fontWeight: 100,
+            borderRadius: 20,
           }}
         >
           {question.data.day}
