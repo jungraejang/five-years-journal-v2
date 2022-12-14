@@ -22,7 +22,7 @@ app.use(logger("dev"));
 // app.use(express.json());
 app.use(
   cors({
-    origin: "https://fyj.netlify.app/",
+    origin: "https://fyj.netlify.app",
     credentials: true,
     optionSuccessStatus: 200,
   })
