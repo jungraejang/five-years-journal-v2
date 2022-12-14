@@ -22,7 +22,7 @@ app.use(logger("dev"));
 // app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:19006",
+    origin: "https://639937658c2dca60541e2890--fyj-native.netlify.app/",
     credentials: true,
     optionSuccessStatus: 200,
   })
