@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"  },
+    "web": "expo start --web"
+  },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
@@ -28,7 +29,7 @@
     "react-native-paper": "^5.0.0-rc.8",
     "react-native-safe-area-context": "4.3.1",
     "react-native-screens": "~3.15.0",
-    "react-native-snap-carousel": "^3.9.1",
+    "react-native-snap-carousel": "git+https://github.com/LarvenLLC/react-native-snap-carousel.git",
     "react-native-social-buttons": "^1.2.0",
     "react-native-svg": "^13.4.0",
     "react-native-vector-icons": "^9.2.0",
