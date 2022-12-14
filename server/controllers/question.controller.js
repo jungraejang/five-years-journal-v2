@@ -231,12 +231,12 @@ exports.getQuestion = (req, res) => {
       return;
     }
 
-    if (response) {
-      res.status(200).send({
-        data: response,
-        message: "question fetched successfully",
-      });
-    }
+    // if (response) {
+    res.status(200).send({
+      data: response,
+      message: "question fetched successfully",
+    });
+    // }
   });
 };
 

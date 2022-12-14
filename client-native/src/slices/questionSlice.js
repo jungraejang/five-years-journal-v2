@@ -74,6 +74,9 @@ export const questionSlice = createSlice({
     setTodayQuestion: (state, action) => {
       state.todayQuestion = action.payload;
     },
+    resetFetchedQuestion: (state, action) => {
+      state.fetchedQuestion = null;
+    },
   },
   extraReducers: {
     [getTodayQuestion.fulfilled]: (state, action) => {
@@ -116,7 +119,8 @@ export const questionSlice = createSlice({
   },
 });
 
-export const { setTodayQuestion, setImage } = questionSlice.actions;
+export const { setTodayQuestion, setImage, resetFetchedQuestion } =
+  questionSlice.actions;
 
 export const selectTodayQuestion = (state) => state.question.todayQuestion;
 export const selectMessage = (state) => state.question.message;

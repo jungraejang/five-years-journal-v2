@@ -15,6 +15,7 @@ import {
   selectFetchedQuestion,
   selectTodayQuestion,
   getQuestion,
+  resetFetchedQuestion,
 } from "../../../slices/questionSlice";
 import { useEffect } from "react";
 import { selectUser } from "../../../slices/authSlice";
@@ -22,10 +23,10 @@ import AnswerBox from "../../common/AnswerBox/AnswerBox";
 
 export default function ArchivePage() {
   var today = new Date();
-  // var dd = today.getDate();
   var dd = ("0" + today.getDate()).slice(-2);
   var mm = today.getMonth() + 1;
   var yyyy = today.getFullYear();
+
   const [selectedDate, setSelectedDate] = useState(`${yyyy}-${mm}-${dd}`);
   let fetchedQuestion = useSelector(selectFetchedQuestion);
   let todayQuestion = useSelector(selectTodayQuestion);
@@ -33,6 +34,7 @@ export default function ArchivePage() {
   let dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("useeffect selectedDate", selectedDate);
     dispatch(
       getQuestion({
         postedBy: user?.username,
@@ -43,7 +45,7 @@ export default function ArchivePage() {
     );
   }, [selectedDate]);
 
-  useEffect(() => {}, [fetchedQuestion]);
+  // useEffect(() => {}, [fetchedQuestion]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Calendar
@@ -53,6 +55,7 @@ export default function ArchivePage() {
         // }}
         current={selectedDate}
         onDayPress={(day) => {
+          dispatch(resetFetchedQuestion());
           setSelectedDate(day.dateString);
         }}
         onDayLongPress={(day) => {
@@ -106,13 +109,10 @@ export default function ArchivePage() {
             {fetchedQuestion?.data?.question}
           </Text>
         )}
-        {fetchedQuestion
-          ? fetchedQuestion?.data?.answers.map((el, index) => {
-              return <AnswerBox key={index} answerProps={el} />;
-            })
-          : todayQuestion?.data?.answers.map((el, index) => {
-              return <AnswerBox key={index} answerProps={el} />;
-            })}
+        {fetchedQuestion &&
+          fetchedQuestion?.data?.answers.map((el, index) => {
+            return <AnswerBox key={index} answerProps={el} />;
+          })}
       </ScrollView>
     </SafeAreaView>
   );

@@ -4,13 +4,13 @@ import { refreshToken } from "../slices/authSlice";
 
 const setupInterceptors = (store) => {
   //Export it to env file
-  let BASE_URL = "http://192.168.0.101:8080/api";
+  let BASE_URL = "http://54.227.10.99:8080/api";
 
+  //use interceptor for requests
   axiosInstance.interceptors.request.use(
     async (config) => {
       const token = await TokenService.getLocalAccessToken();
       if (token) {
-        // config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
         config.headers["x-access-token"] = token; // for Node.js Express back-end
       }
       return config;
@@ -22,6 +22,7 @@ const setupInterceptors = (store) => {
 
   const { dispatch } = store;
 
+  //use interceptor for responses
   axiosInstance.interceptors.response.use(
     (res) => {
       return res;

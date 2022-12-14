@@ -7,6 +7,7 @@ const initialState = { isLoggedIn: false, user: {}, message: "" };
 export const registerUser = createAsyncThunk(
   "auth/register",
   async ({ username, email, password, roles }, { rejectWithValue }) => {
+    console.log("register user");
     try {
       const res = await authService.register({
         username,
