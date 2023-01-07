@@ -93,7 +93,7 @@ export default function FeedPage({ navigation } = props) {
           width: 250,
           height: 35,
           textAlign: "center",
-          backgroundColor: "#E1D9EC",
+          backgroundColor: "#A693CA",
           borderRadius: 30,
           marginTop: 20,
           justifyContent: "center",

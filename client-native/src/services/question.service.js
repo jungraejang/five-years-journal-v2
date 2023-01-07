@@ -1,7 +1,7 @@
 import api from "./api";
-
+import * as constants from "../constants/constants";
 //export it later to env variables
-const API_URL = "http://54.227.10.99:8080/api/question/";
+const API_URL = `${constants.BASE_URL}/question/`;
 
 const getTodayQuestion = async ({ postedBy, today, day, month }) => {
   try {

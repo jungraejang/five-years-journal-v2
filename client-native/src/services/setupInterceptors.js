@@ -1,10 +1,10 @@
 import axiosInstance from "./api";
 import TokenService from "./token.service";
 import { refreshToken } from "../slices/authSlice";
-
+import * as constants from "../constants/constants";
 const setupInterceptors = (store) => {
   //Export it to env file
-  let BASE_URL = "http://54.227.10.99:8080/api";
+  let BASE_URL = constants.BASE_URL;
 
   //use interceptor for requests
   axiosInstance.interceptors.request.use(
