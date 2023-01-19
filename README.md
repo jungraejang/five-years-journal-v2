@@ -19,3 +19,6 @@ Figma, React Native, Redux, AWS(Rekognition, S3), MongoDB Atlas, NodeJS, JWT
 **Who built it?**
 Jung Rae Jang - Programming
 Andrea Gaona - UI/UX Design
+
+**Deployed URL**
+https://fyj.netlify.app/
